@@ -41,10 +41,11 @@ const SECTIONS = [
 export default function AdvertisePage() {
   return (
     <main className="overflow-x-hidden">
-      <section className="wm-grid border-b border-[var(--wm-line)]">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:py-24">
+      <section className="wm-hero wm-grid overflow-hidden border-b border-[var(--wm-line)]">
+        <div className="wm-hero-veil" aria-hidden />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:py-24">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-[var(--wm-mint)]">For advertisers</p>
+            <p className="wm-kicker">For advertisers</p>
             <h1 className="font-display mt-5 text-5xl leading-[1.05] sm:text-6xl">
               {siteConfig.advertiserHeading}
             </h1>
@@ -56,13 +57,13 @@ export default function AdvertisePage() {
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/signup?next=/advertiser"
-                className="inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--wm-mint)] px-5 text-sm font-medium text-[#04110c]"
+                className="wm-btn wm-btn-primary"
               >
                 Create advertiser account
               </Link>
               <Link
                 href="/verified-attention"
-                className="inline-flex min-h-11 items-center justify-center rounded-full border border-[var(--wm-line-strong)] px-5 text-sm"
+                className="wm-btn wm-btn-ghost"
               >
                 See Verified Attention
               </Link>
@@ -78,7 +79,7 @@ export default function AdvertisePage() {
           {SECTIONS.map((section) => (
             <article
               key={section.title}
-              className="rounded-2xl border border-[var(--wm-line)] bg-[var(--wm-bg-elevated)] p-6"
+              className="wm-panel wm-panel-hover rounded-2xl p-6"
             >
               <h3 className="text-lg font-medium">{section.title}</h3>
               <p className="mt-3 text-sm leading-6 text-[var(--wm-muted)]">{section.body}</p>

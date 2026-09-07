@@ -40,7 +40,7 @@ export function ProductGrid({
       {WAITMINT_PRODUCTS.map((product) => (
         <li
           key={product.id}
-          className="flex flex-col rounded-3xl border border-[var(--wm-line)] bg-[var(--wm-bg-elevated)] p-6 sm:p-8"
+          className="flex flex-col rounded-[1.6rem] border border-[var(--wm-line)] bg-[var(--wm-bg-elevated)] p-6 sm:p-8 wm-panel-hover"
         >
           <div className="flex items-center justify-between gap-3">
             <p className="text-xs uppercase tracking-[0.16em] text-[var(--wm-aqua)]">{product.eyebrow}</p>

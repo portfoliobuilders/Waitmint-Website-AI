@@ -26,9 +26,10 @@ const STEPS = [
 export default function EarnPage() {
   return (
     <main className="overflow-x-hidden">
-      <section className="wm-grid border-b border-[var(--wm-line)]">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
-          <p className="text-xs uppercase tracking-[0.22em] text-[var(--wm-mint)]">For people who wait</p>
+      <section className="wm-hero wm-grid overflow-hidden border-b border-[var(--wm-line)]">
+        <div className="wm-hero-veil" aria-hidden />
+        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+          <p className="wm-kicker">For people who wait</p>
           <h1 className="font-display mt-5 max-w-4xl text-5xl leading-[1.05] sm:text-6xl">
             {siteConfig.userHeading}
           </h1>
@@ -41,13 +42,13 @@ export default function EarnPage() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
               href={chromeExtensionUrl()}
-              className="inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--wm-mint)] px-5 text-sm font-medium text-[#04110c]"
+              className="wm-btn wm-btn-primary"
             >
               Add WaitMint to Chrome
             </a>
             <Link
               href="/how-it-works"
-              className="inline-flex min-h-11 items-center justify-center rounded-full border border-[var(--wm-line-strong)] px-5 text-sm"
+              className="wm-btn wm-btn-ghost"
             >
               See how it works
             </Link>

@@ -22,9 +22,10 @@ export default function BlogIndexPage() {
 
   return (
     <main className="overflow-x-hidden">
-      <section className="wm-grid border-b border-[var(--wm-line)]">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
-          <p className="text-xs uppercase tracking-[0.22em] text-[var(--wm-mint)]">Journal</p>
+      <section className="wm-hero wm-grid overflow-hidden border-b border-[var(--wm-line)]">
+        <div className="wm-hero-veil" aria-hidden />
+        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+          <p className="wm-kicker">Journal</p>
           <h1 className="font-display mt-5 max-w-4xl text-5xl leading-[1.05] sm:text-6xl">Blog</h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--wm-muted)]">
             Three notes on the product as it actually works. No ratings, no invented case studies,

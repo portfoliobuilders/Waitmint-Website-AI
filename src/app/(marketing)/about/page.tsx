@@ -12,9 +12,10 @@ export const metadata = pageMetadata({
 export default function AboutPage() {
   return (
     <main className="overflow-x-hidden">
-      <section className="wm-grid border-b border-[var(--wm-line)]">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
-          <p className="text-xs uppercase tracking-[0.22em] text-[var(--wm-mint)]">About</p>
+      <section className="wm-hero wm-grid overflow-hidden border-b border-[var(--wm-line)]">
+        <div className="wm-hero-veil" aria-hidden />
+        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24">
+          <p className="wm-kicker">About</p>
           <h1 className="font-display mt-5 max-w-4xl text-5xl leading-[1.05] sm:text-6xl">
             {siteConfig.tagline}
           </h1>

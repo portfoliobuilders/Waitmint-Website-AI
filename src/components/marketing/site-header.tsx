@@ -1,32 +1,65 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { WaitMintMark } from "@/components/marketing/mark";
 import { chromeExtensionUrl } from "@/lib/config";
+import { cn } from "@/lib/utils";
 
 const NAV = [
   { href: "/earn", label: "Earn" },
   { href: "/advertise", label: "Advertise" },
-  { href: "/products", label: "Products" },
-  { href: "/pricing", label: "Pricing" },
+  { href: "/how-it-works", label: "How it works" },
+  { href: "/platforms", label: "Platforms" },
   { href: "/trust", label: "Trust" },
 ];
 
 export function SiteHeader({ signedIn }: { signedIn: boolean }) {
   const store = chromeExtensionUrl();
+  const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--wm-line)] bg-[rgba(7,8,11,0.82)] backdrop-blur-xl">
+    <header
+      className={cn(
+        "sticky top-0 z-40 border-b backdrop-blur-xl transition-colors",
+        scrolled
+          ? "border-[var(--wm-line)] bg-[rgba(5,6,10,0.88)]"
+          : "border-transparent bg-[rgba(5,6,10,0.55)]",
+      )}
+    >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 text-sm font-medium">
-          <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-[var(--wm-mint)] text-[#04110c]">
-            W
-          </span>
+        <Link href="/" className="flex items-center gap-2.5 text-sm font-medium">
+          <WaitMintMark className="h-8 w-8" />
           WaitMint
         </Link>
         <nav className="hidden items-center gap-7 text-sm text-[var(--wm-muted)] md:flex" aria-label="Primary">
-          {NAV.map((item) => (
-            <Link key={item.href} href={item.href} className="hover:text-[var(--wm-text)]">
-              {item.label}
-            </Link>
-          ))}
+          {NAV.map((item) => {
+            const current = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "relative py-1 transition-colors hover:text-[var(--wm-text)]",
+                  current && "text-[var(--wm-text)]",
+                )}
+                aria-current={current ? "page" : undefined}
+              >
+                {item.label}
+                {current ? (
+                  <span className="absolute inset-x-0 -bottom-1 h-px bg-[var(--wm-mint)]" aria-hidden />
+                ) : null}
+              </Link>
+            );
+          })}
         </nav>
         <div className="hidden items-center gap-3 md:flex">
           {signedIn ? (
@@ -38,10 +71,7 @@ export function SiteHeader({ signedIn }: { signedIn: boolean }) {
               Login
             </Link>
           )}
-          <a
-            href={store}
-            className="inline-flex min-h-11 items-center rounded-full bg-[var(--wm-mint)] px-4 text-sm font-medium text-[#04110c]"
-          >
+          <a href={store} className="wm-btn wm-btn-primary px-4">
             Get WaitMint
           </a>
         </div>
@@ -54,7 +84,7 @@ export function SiteHeader({ signedIn }: { signedIn: boolean }) {
           </summary>
           <nav
             id="mobile-nav"
-            className="absolute right-0 z-50 mt-3 w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-[var(--wm-line)] bg-[var(--wm-bg-elevated)] px-3 py-3"
+            className="absolute right-0 z-50 mt-3 w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-[var(--wm-line)] bg-[var(--wm-bg-elevated)] px-3 py-3 shadow-2xl"
             aria-label="Mobile"
           >
             {NAV.map((item) => (

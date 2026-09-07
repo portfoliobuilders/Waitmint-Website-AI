@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --wm-bg: #07080b;
-  --wm-bg-elevated: #0e1016;
-  --wm-bg-soft: #141821;
+  --wm-bg: #05060a;
+  --wm-bg-elevated: #0c0e15;
+  --wm-bg-soft: #131722;
   --wm-line: rgba(244, 246, 248, 0.08);
   --wm-line-strong: rgba(244, 246, 248, 0.16);
   --wm-text: #f4f6f8;
@@ -11,6 +11,8 @@
   --wm-mint: #3ee6b6;
   --wm-mint-dim: rgba(62, 230, 182, 0.14);
   --wm-aqua: #4fd4e8;
+  --wm-gold: #d7c4a3;
+  --wm-gold-dim: rgba(215, 196, 163, 0.14);
   --wm-danger: #ff6b7a;
   --wm-warn: #f5c16c;
   --background: var(--wm-bg);
@@ -30,13 +32,11 @@
 html {
   background: var(--wm-bg);
   color: var(--wm-text);
+  scroll-behavior: smooth;
 }
 
 body {
-  background:
-    radial-gradient(1200px 600px at 80% -10%, rgba(62, 230, 182, 0.08), transparent 50%),
-    radial-gradient(900px 500px at -10% 10%, rgba(79, 212, 232, 0.06), transparent 45%),
-    var(--wm-bg);
+  background: var(--wm-bg);
   color: var(--wm-text);
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   min-height: 100%;
@@ -52,24 +52,190 @@ body {
   outline-offset: 3px;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #05060a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(62, 230, 182, 0.28);
+  border: 2px solid #05060a;
+  border-radius: 999px;
+}
+
 .font-display {
   font-family: var(--font-instrument), ui-serif, Georgia, serif;
 }
 
+.wm-kicker {
+  color: var(--wm-mint);
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
 .wm-grid {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 48px 48px;
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 56px 56px;
 }
 
 .wm-glow {
-  box-shadow: 0 0 0 1px rgba(62, 230, 182, 0.18), 0 20px 80px rgba(62, 230, 182, 0.08);
+  box-shadow:
+    0 0 0 1px rgba(62, 230, 182, 0.18),
+    0 24px 90px rgba(62, 230, 182, 0.1),
+    0 0 80px rgba(79, 212, 232, 0.06);
+}
+
+.wm-panel {
+  border: 1px solid var(--wm-line);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.012)),
+    var(--wm-bg-elevated);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.22);
+}
+
+.wm-panel-hover {
+  transition:
+    transform 280ms ease,
+    border-color 280ms ease,
+    box-shadow 280ms ease;
+}
+
+.wm-panel-hover:hover {
+  transform: translateY(-3px);
+  border-color: rgba(62, 230, 182, 0.28);
+  box-shadow:
+    0 0 0 1px rgba(62, 230, 182, 0.08),
+    0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
+.wm-btn {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition:
+    transform 200ms ease,
+    filter 200ms ease,
+    background 200ms ease,
+    border-color 200ms ease;
+}
+
+.wm-btn:hover {
+  transform: translateY(-1px);
+}
+
+.wm-btn-primary {
+  position: relative;
+  overflow: hidden;
+  background: var(--wm-mint);
+  color: #04110c;
+  box-shadow: 0 10px 30px rgba(62, 230, 182, 0.22);
+}
+
+.wm-btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.35), transparent 70%);
+  transform: translateX(-120%);
+}
+
+.wm-btn-primary:hover::after {
+  animation: wm-shine 900ms ease;
+}
+
+.wm-btn-ghost {
+  border: 1px solid var(--wm-line-strong);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.wm-btn-ghost:hover {
+  border-color: rgba(215, 196, 163, 0.4);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.wm-hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.wm-hero-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(900px 420px at 18% -10%, rgba(62, 230, 182, 0.16), transparent 58%),
+    radial-gradient(720px 380px at 92% 8%, rgba(79, 212, 232, 0.12), transparent 52%),
+    radial-gradient(640px 280px at 50% 120%, rgba(215, 196, 163, 0.08), transparent 60%);
+  pointer-events: none;
+}
+
+.wm-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(70px);
+  opacity: 0.55;
+  animation: wm-drift 18s ease-in-out infinite;
+}
+
+.wm-orb-a {
+  top: -8%;
+  right: 8%;
+  width: 28rem;
+  height: 28rem;
+  background: rgba(62, 230, 182, 0.18);
+}
+
+.wm-orb-b {
+  top: 28%;
+  left: -8%;
+  width: 22rem;
+  height: 22rem;
+  background: rgba(79, 212, 232, 0.12);
+  animation-delay: -6s;
+}
+
+.wm-orb-c {
+  bottom: -12%;
+  right: 22%;
+  width: 18rem;
+  height: 18rem;
+  background: rgba(215, 196, 163, 0.1);
+  animation-delay: -11s;
+}
+
+.wm-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+}
+
+.wm-marquee {
+  display: flex;
+  width: max-content;
+  animation: wm-marquee 36s linear infinite;
+}
+
+.wm-marquee:hover {
+  animation-play-state: paused;
 }
 
 .wm-range {
   appearance: none;
   height: 0.7rem;
+  width: 100%;
   cursor: pointer;
   border-radius: 999px;
   background: linear-gradient(
@@ -105,11 +271,101 @@ body {
   box-shadow: 0 0 0 4px rgba(62, 230, 182, 0.28);
 }
 
+.wm-thinking::after {
+  content: "";
+  display: inline-block;
+  width: 1.1em;
+  animation: wm-ellipsis 1.2s steps(4, end) infinite;
+}
+
+.wm-progress {
+  background: linear-gradient(90deg, var(--wm-mint), var(--wm-aqua));
+  transform-origin: left center;
+}
+
+@keyframes wm-shine {
+  to {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes wm-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, 6%, 0) scale(1.08);
+  }
+}
+
+@keyframes wm-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes wm-ellipsis {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+}
+
+@keyframes wm-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes wm-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.wm-rise {
+  animation: wm-rise 700ms ease both;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .wm-btn:hover,
+  .wm-panel-hover:hover {
+    transform: none;
   }
 }
