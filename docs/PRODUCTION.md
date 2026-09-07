@@ -23,7 +23,7 @@ Set these in the Vercel project **waitmint.ai** (Production / Preview / Developm
 - Future custom domain: `https://waitmint.ai` (not configured in this task)
 - Framework Preset **must stay Next.js**. `vercel.json` pins `"framework": "nextjs"`. Do not set it to Other.
 
-Public marketing pages on `https://waitmintai.vercel.app` are live. Auth is the WaitMint project `vylhcsbbihpbrgpadxio`. Wallet, extension linking, advertiser, and admin Exchange data stay blocked until a hosted Exchange exists. Do not set `WAITMINT_API_URL` to localhost. Do not use the `portfolixslipgen` Supabase project.
+Public marketing pages on `https://waitmintai.vercel.app` are live. Auth is the WaitMint project `vylhcsbbihpbrgpadxio`. Cursor MCP for this repo is **read-only** on that project. Wallet, extension linking, advertiser, and admin Exchange data stay blocked until a hosted Exchange exists. Do not set `WAITMINT_API_URL` to localhost. Do not use the `portfolixslipgen` Supabase project.
 
 ### Why production used to 404 while the dashboard said Ready
 

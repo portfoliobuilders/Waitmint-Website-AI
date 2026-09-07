@@ -4,8 +4,9 @@ Do this in the **same** Supabase project the Exchange uses. Do not create a seco
 
 - Project ref: `vylhcsbbihpbrgpadxio`
 - API URL: `https://vylhcsbbihpbrgpadxio.supabase.co`
-- Cursor MCP: `.cursor/mcp.json` (scoped to this project)
+- Cursor MCP: `.cursor/mcp.json` (this project only, **read-only** — no write SQL, migrations, function deploys, or branching)
 - CLI: `npx supabase login` then `npx supabase link --project-ref vylhcsbbihpbrgpadxio`
+- Hosted Auth URLs: `SUPABASE_ACCESS_TOKEN=… ./scripts/configure-hosted-auth.sh`
 
 Redirect URLs (Authentication → URL configuration):
 
@@ -17,7 +18,9 @@ Site URL: the live public origin. Use `http://localhost:3000` locally, `https://
 
 ## Email / password
 
-Enable Email provider. Confirm email for new signups during the private pilot.
+Email is enabled on this project (`external.email: true`). Confirm email for new signups during the private pilot (`mailer_autoconfirm` is off).
+
+Google is **not** enabled. Password sign-in against a missing user returns `Invalid login credentials` from Auth, which means the website client is configured.
 
 The database trigger `handle_new_auth_user` creates `profiles` with `role = 'user'`. The website never sends a role from the browser. A later migration blocks client `profiles.role` updates.
 
