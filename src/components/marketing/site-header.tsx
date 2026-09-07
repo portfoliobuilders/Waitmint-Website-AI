@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { WaitMintMark } from "@/components/marketing/mark";
 import { chromeExtensionUrl } from "@/lib/config";
@@ -18,23 +17,9 @@ const NAV = [
 export function SiteHeader({ signedIn }: { signedIn: boolean }) {
   const store = chromeExtensionUrl();
   const pathname = usePathname();
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-40 border-b backdrop-blur-xl transition-colors",
-        scrolled
-          ? "border-[var(--wm-line)] bg-[rgba(5,6,10,0.88)]"
-          : "border-transparent bg-[rgba(5,6,10,0.55)]",
-      )}
-    >
+    <header className="sticky top-0 z-40 border-b border-[var(--wm-line)] bg-[rgba(5,6,10,0.92)] backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2.5 text-sm font-medium">
           <WaitMintMark className="h-8 w-8" />
@@ -84,7 +69,7 @@ export function SiteHeader({ signedIn }: { signedIn: boolean }) {
           </summary>
           <nav
             id="mobile-nav"
-            className="absolute right-0 z-50 mt-3 w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-[var(--wm-line)] bg-[var(--wm-bg-elevated)] px-3 py-3 shadow-2xl"
+            className="fixed inset-x-3 top-[4.35rem] z-[80] rounded-2xl border border-[var(--wm-line-strong)] bg-[#0c0e15] px-3 py-3 shadow-[0_24px_80px_rgba(0,0,0,0.75)]"
             aria-label="Mobile"
           >
             {NAV.map((item) => (
