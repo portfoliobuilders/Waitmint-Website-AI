@@ -1,0 +1,55 @@
+name: Bind production alias
+
+on:
+  deployment_status:
+  workflow_dispatch:
+    inputs:
+      deployment_url:
+        description: Unique Ready Production URL (waitmint-xxxxx-....vercel.app)
+        required: true
+        type: string
+
+jobs:
+  bind-waitmintai:
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment.environment == 'Production')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require Vercel token
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "VERCEL_TOKEN is not set. Add it under GitHub → Settings → Secrets."
+            echo "Until then, bind the alias from a logged-in machine:"
+            echo "npx vercel alias set <unique-production-url> waitmintai.vercel.app"
+            if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+              exit 1
+            fi
+            echo "Skipping automatic bind on this production deployment."
+            echo "skip=true" >> "$GITHUB_ENV"
+            exit 0
+          fi
+
+      - uses: actions/setup-node@v4
+        if: env.skip != 'true'
+        with:
+          node-version: "22"
+
+      - name: Attach waitmintai.vercel.app
+        if: env.skip != 'true'
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          INPUT_URL: ${{ github.event.inputs.deployment_url }}
+          STATUS_URL: ${{ github.event.deployment_status.environment_url }}
+        run: |
+          URL="${INPUT_URL:-$STATUS_URL}"
+          URL="${URL#https://}"
+          URL="${URL#http://}"
+          URL="${URL%%/*}"
+          npx --yes vercel@latest alias set "$URL" waitmintai.vercel.app \
+            --yes \
+            --scope team_awqGHouzlfFcOUI0SqcUTtw2 \
+            --token "$VERCEL_TOKEN"

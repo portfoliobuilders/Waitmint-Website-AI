@@ -133,6 +133,14 @@ npx vercel env pull .env.local
 
 When linking, choose the existing project **waitmint.ai**. `.vercel/` is gitignored.
 
+If `https://waitmintai.vercel.app` returns Vercel platform `404 NOT_FOUND` while Production is Ready, the app is deployed and the alias is not bound at the edge. From a machine logged into Vercel:
+
+```bash
+npx vercel alias set <unique-production-url> waitmintai.vercel.app
+```
+
+See `docs/PRODUCTION.md`.
+
 ### Production environment
 
 Configure these in the Vercel dashboard. Never put real secrets in git or in `NEXT_PUBLIC_*` except the public anon key.

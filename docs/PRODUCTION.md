@@ -22,6 +22,22 @@ Set these in the Vercel project **waitmint.ai** (Production / Preview / Developm
 - Preferred alias `https://waitmint.vercel.app` is already serving a different Vite app. Do not try to take it from another project.
 - Future custom domain: `https://waitmint.ai` (not configured in this task)
 
+### Why `waitmintai.vercel.app` can 404 while Production is Ready
+
+The WaitMint app is already built. Hashed Production URLs exist. `Settings → Domains` can show `waitmintai.vercel.app` as Valid Configuration and still return Vercel platform `404 NOT_FOUND`. That means the hostname is registered but the **edge has no deployment mapping**.
+
+Fix (existing project only — do not create a second Vercel project):
+
+```bash
+npx vercel login
+npx vercel link --yes --team portfolios-projects --project waitmint.ai
+npx vercel alias set <unique-production-url> waitmintai.vercel.app
+```
+
+Or add GitHub secret `VERCEL_TOKEN` and run **Actions → Bind production alias** with the unique Production URL.
+
+Hashed `*.vercel.app` URLs stay behind Vercel SSO until Deployment Protection allows public Production domains. The public site is the assigned alias, not the hashed URL.
+
 ## Rules
 
 - Never put `SUPABASE_SERVICE_ROLE_KEY`, database passwords, or Exchange admin keys in this app.
