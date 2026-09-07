@@ -18,10 +18,22 @@ npx supabase link --project-ref vylhcsbbihpbrgpadxio
 
 The Postgres URI belongs on the Exchange / operators, not in this website’s env.
 
-## Hosted Auth URLs (dashboard)
+## Hosted Auth URLs (dashboard or token)
 
-Authentication → URL configuration:
+Authentication → URL configuration, or:
+
+```bash
+npx supabase login
+export SUPABASE_ACCESS_TOKEN=...   # https://supabase.com/dashboard/account/tokens
+./scripts/configure-hosted-auth.sh
+```
+
+That sets:
 
 - Site URL: `https://waitmintai.vercel.app` (until `waitmint.ai` DNS is attached)
-- Redirect: `https://waitmintai.vercel.app/auth/callback`
-- Local redirect: `http://localhost:3000/auth/callback`
+- Redirects: `http://localhost:3000/auth/callback`, `https://waitmintai.vercel.app/auth/callback`, `https://waitmint.ai/auth/callback`
+
+## Cursor MCP
+
+`.cursor/mcp.json` is scoped to this project and **read-only**. Agents can inspect docs/schema/logs and read publishable keys. They cannot `apply_migration`, write SQL, deploy Edge Functions, or branch this production database. Ledger writes belong in `Waitmint-AI-Waittime-Project`.
+
