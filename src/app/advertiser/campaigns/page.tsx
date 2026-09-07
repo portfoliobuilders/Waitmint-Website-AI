@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ConsoleGate } from "@/components/app/console-gate";
 import { DataGate } from "@/components/app/data-gate";
 import { requireUser } from "@/lib/auth/guards";
 import { callWaitmint } from "@/lib/api/waitmint";
@@ -20,9 +21,26 @@ type CampaignRow = {
 export default async function CampaignsPage() {
   const { session } = await requireUser();
   const token = session?.access_token;
-  if (!token) return <DataGate kind="unconfigured" />;
+  if (!token) {
+    return (
+      <ConsoleGate
+        title="Campaigns"
+        body="Campaign drafts, review, and spend live on the Exchange. This website does not keep a second campaign table."
+        kind="unconfigured"
+      />
+    );
+  }
   const result = await callWaitmint<{ campaigns?: CampaignRow[] }>("/api/ads/campaigns", { accessToken: token });
-  if (!result.ok) return <DataGate kind={result.kind === "error" ? "offline" : result.kind} message={result.message} />;
+  if (!result.ok) {
+    return (
+      <ConsoleGate
+        title="Campaigns"
+        body="Campaign drafts, review, and spend live on the Exchange. This website does not keep a second campaign table."
+        kind={result.kind === "error" ? "offline" : result.kind}
+        message={result.message}
+      />
+    );
+  }
   const campaigns = result.data.campaigns ?? [];
 
   return (

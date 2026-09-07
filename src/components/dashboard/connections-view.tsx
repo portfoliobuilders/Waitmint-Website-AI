@@ -44,9 +44,6 @@ export async function ConnectionsView() {
         <div className="mt-8">
           <ConnectionBoard />
         </div>
-        <div className="mt-8">
-          <LinkTokenPanel />
-        </div>
       </div>
     );
   }

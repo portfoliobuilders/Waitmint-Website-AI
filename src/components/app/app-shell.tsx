@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { PortfolixCredit } from "@/components/marketing/portfolix-credit";
 import { cn } from "@/lib/utils";
 
 export type AppArea = "earn" | "advertise" | "admin";
@@ -57,7 +58,7 @@ export function AppShell({
   const items = NAV[area];
 
   return (
-    <div className="min-h-full">
+    <div className="flex min-h-full flex-col">
       <header className="sticky top-0 z-30 border-b border-[var(--wm-line)] bg-[rgba(7,8,11,0.9)] backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-4">
@@ -166,7 +167,12 @@ export function AppShell({
           </nav>
         ) : null}
       </header>
-      <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6">{children}</main>
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">{children}</main>
+      <footer className="border-t border-[var(--wm-line)]">
+        <div className="mx-auto flex max-w-6xl px-4 py-5 sm:px-6">
+          <PortfolixCredit />
+        </div>
+      </footer>
     </div>
   );
 }
