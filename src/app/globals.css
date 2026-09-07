@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+:root {
+  --wm-bg: #07080b;
+  --wm-bg-elevated: #0e1016;
+  --wm-bg-soft: #141821;
+  --wm-line: rgba(244, 246, 248, 0.08);
+  --wm-line-strong: rgba(244, 246, 248, 0.16);
+  --wm-text: #f4f6f8;
+  --wm-muted: #9aa3ad;
+  --wm-mint: #3ee6b6;
+  --wm-mint-dim: rgba(62, 230, 182, 0.14);
+  --wm-aqua: #4fd4e8;
+  --wm-danger: #ff6b7a;
+  --wm-warn: #f5c16c;
+  --background: var(--wm-bg);
+  --foreground: var(--wm-text);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-mint: var(--wm-mint);
+  --color-aqua: var(--wm-aqua);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-instrument);
+}
+
+html {
+  background: var(--wm-bg);
+  color: var(--wm-text);
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(62, 230, 182, 0.08), transparent 50%),
+    radial-gradient(900px 500px at -10% 10%, rgba(79, 212, 232, 0.06), transparent 45%),
+    var(--wm-bg);
+  color: var(--wm-text);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  min-height: 100%;
+}
+
+::selection {
+  background: var(--wm-mint-dim);
+  color: var(--wm-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--wm-mint);
+  outline-offset: 3px;
+}
+
+.font-display {
+  font-family: var(--font-instrument), ui-serif, Georgia, serif;
+}
+
+.wm-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.wm-glow {
+  box-shadow: 0 0 0 1px rgba(62, 230, 182, 0.18), 0 20px 80px rgba(62, 230, 182, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
