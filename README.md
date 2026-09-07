@@ -133,7 +133,9 @@ npx vercel env pull .env.local
 
 When linking, choose the existing project **waitmint.ai**. `.vercel/` is gitignored.
 
-If `https://waitmintai.vercel.app` returns Vercel platform `404 NOT_FOUND` while Production is Ready, the app is deployed and the alias is not bound at the edge. From a machine logged into Vercel:
+If `https://waitmintai.vercel.app` returns Vercel platform `404 NOT_FOUND` while Production is Ready, check **Framework Preset first**. It must be Next.js (`vercel.json` pins this). A preset of Other deploys `public/` only and looks Ready with empty output.
+
+If the preset is already Next.js, bind the public alias:
 
 ```bash
 npx vercel alias set <unique-production-url> waitmintai.vercel.app
