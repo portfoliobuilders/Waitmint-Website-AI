@@ -50,6 +50,14 @@ test("pricing calculator accepts intensity presets", async ({ page }) => {
   await expect(page.getByText(/same 60\/40 split/i)).toBeVisible();
 });
 
+test("footer credits Portfolix.Tech", async ({ page }) => {
+  await page.goto("/");
+  const credit = page.getByRole("link", { name: /Powered by Portfolix\.Tech/i });
+  await expect(credit).toBeVisible();
+  await expect(credit).toHaveAttribute("href", "https://portfolix.tech/");
+  await expect(page.getByRole("img", { name: "Portfolix" })).toBeVisible();
+});
+
 test("login shows one identity and the sign-in form", async ({ page }) => {
   await page.goto("/login");
   await expect(page.getByRole("heading", { name: /Sign in once/i })).toBeVisible();

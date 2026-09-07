@@ -1,4 +1,4 @@
-import { DataGate } from "@/components/app/data-gate";
+import { ConsoleGate } from "@/components/app/console-gate";
 import { StatCard } from "@/components/ui/card";
 import { requireUser } from "@/lib/auth/guards";
 import { callWaitmint } from "@/lib/api/waitmint";
@@ -13,9 +13,26 @@ type Analytics = {
 export default async function AnalyticsPage() {
   const { session } = await requireUser();
   const token = session?.access_token;
-  if (!token) return <DataGate kind="unconfigured" />;
+  if (!token) {
+    return (
+      <ConsoleGate
+        title="Analytics"
+        body="Exchange measurements only. Sample impressions and invented CTR are never shown."
+        kind="unconfigured"
+      />
+    );
+  }
   const result = await callWaitmint<Analytics>("/api/ads/analytics", { accessToken: token });
-  if (!result.ok) return <DataGate kind={result.kind === "error" ? "offline" : result.kind} message={result.message} />;
+  if (!result.ok) {
+    return (
+      <ConsoleGate
+        title="Analytics"
+        body="Exchange measurements only. Sample impressions and invented CTR are never shown."
+        kind={result.kind === "error" ? "offline" : result.kind}
+        message={result.message}
+      />
+    );
+  }
   const data = result.data;
   return (
     <div>

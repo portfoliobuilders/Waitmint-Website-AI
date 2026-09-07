@@ -62,7 +62,7 @@ export function AuthForm({
         return;
       }
       const { error: authError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/callback?next=/dashboard/security`,
+        redirectTo: `${window.location.origin}/auth/callback?next=/update-password`,
       });
       if (authError) throw authError;
       setMessage("If an account exists, a reset link is on its way.");

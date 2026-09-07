@@ -1,4 +1,4 @@
-import { DataGate } from "@/components/app/data-gate";
+import { ConsoleGate } from "@/components/app/console-gate";
 import { CampaignActions } from "@/components/advertiser/campaign-actions";
 import { requireUser } from "@/lib/auth/guards";
 import { callWaitmint } from "@/lib/api/waitmint";
@@ -13,11 +13,28 @@ export default async function CampaignDetailPage({
   const { id } = await params;
   const { session } = await requireUser();
   const token = session?.access_token;
-  if (!token) return <DataGate kind="unconfigured" />;
+  if (!token) {
+    return (
+      <ConsoleGate
+        title="Campaign"
+        body="Campaign detail and spend are Exchange records. Sample performance is never shown."
+        kind="unconfigured"
+      />
+    );
+  }
   const result = await callWaitmint<{ campaign?: Record<string, unknown> }>(`/api/ads/campaigns/${id}`, {
     accessToken: token,
   });
-  if (!result.ok) return <DataGate kind={result.kind === "error" ? "offline" : result.kind} message={result.message} />;
+  if (!result.ok) {
+    return (
+      <ConsoleGate
+        title="Campaign"
+        body="Campaign detail and spend are Exchange records. Sample performance is never shown."
+        kind={result.kind === "error" ? "offline" : result.kind}
+        message={result.message}
+      />
+    );
+  }
   const campaign = (result.data.campaign ?? result.data) as Record<string, unknown>;
   const status = String(campaign.status ?? "draft");
 

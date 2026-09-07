@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PortfolixCredit } from "@/components/marketing/portfolix-credit";
 import { siteConfig } from "@/lib/config";
 
 const GROUPS = [
@@ -53,6 +54,9 @@ export function SiteFooter() {
             </ul>
           </div>
         ))}
+      </div>
+      <div className="mx-auto flex max-w-6xl flex-col gap-3 border-t border-[var(--wm-line)] px-4 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <PortfolixCredit />
       </div>
     </footer>
   );
