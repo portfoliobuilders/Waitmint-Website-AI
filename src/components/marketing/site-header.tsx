@@ -1,9 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
 import { chromeExtensionUrl } from "@/lib/config";
-import { cn } from "@/lib/utils";
 
 const NAV = [
   { href: "/earn", label: "Earn" },
@@ -14,7 +10,7 @@ const NAV = [
 ];
 
 export function SiteHeader({ signedIn }: { signedIn: boolean }) {
-  const [open, setOpen] = useState(false);
+  const store = chromeExtensionUrl();
 
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--wm-line)] bg-[rgba(7,8,11,0.82)] backdrop-blur-xl">
@@ -43,33 +39,26 @@ export function SiteHeader({ signedIn }: { signedIn: boolean }) {
             </Link>
           )}
           <a
-            href={chromeExtensionUrl()}
+            href={store}
             className="inline-flex min-h-11 items-center rounded-full bg-[var(--wm-mint)] px-4 text-sm font-medium text-[#04110c]"
           >
             Get WaitMint
           </a>
         </div>
-        <button
-          type="button"
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-[var(--wm-line)] md:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-nav"
-          onClick={() => setOpen((value) => !value)}
-        >
-          <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-          <span aria-hidden className={cn("block h-px w-4 bg-[var(--wm-text)]", open && "rotate-45")} />
-        </button>
-      </div>
-      {open ? (
-        <nav id="mobile-nav" className="border-t border-[var(--wm-line)] px-4 py-4 md:hidden" aria-label="Mobile">
-          <div className="flex flex-col gap-1">
+        <details className="relative md:hidden">
+          <summary
+            className="flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center rounded-full border border-[var(--wm-line)] [&::-webkit-details-marker]:hidden"
+            aria-label="Open menu"
+          >
+            <span aria-hidden>☰</span>
+          </summary>
+          <nav
+            id="mobile-nav"
+            className="absolute right-0 z-50 mt-3 w-[min(18rem,calc(100vw-2rem))] rounded-2xl border border-[var(--wm-line)] bg-[var(--wm-bg-elevated)] px-3 py-3"
+            aria-label="Mobile"
+          >
             {NAV.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="flex min-h-11 items-center rounded-lg px-3 text-sm"
-                onClick={() => setOpen(false)}
-              >
+              <Link key={item.href} href={item.href} className="flex min-h-11 items-center rounded-lg px-3 text-sm">
                 {item.label}
               </Link>
             ))}
@@ -77,14 +66,14 @@ export function SiteHeader({ signedIn }: { signedIn: boolean }) {
               {signedIn ? "Dashboard" : "Login"}
             </Link>
             <a
-              href={chromeExtensionUrl()}
-              className="mt-2 inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--wm-mint)] text-sm font-medium text-[#04110c]"
+              href={store}
+              className="mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-[var(--wm-mint)] text-sm font-medium text-[#04110c]"
             >
               Get WaitMint
             </a>
-          </div>
-        </nav>
-      ) : null}
+          </nav>
+        </details>
+      </div>
     </header>
   );
 }
