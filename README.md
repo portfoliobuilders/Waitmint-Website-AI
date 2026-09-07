@@ -46,15 +46,15 @@ The app listens on [http://localhost:3000](http://localhost:3000).
 | Variable | Purpose |
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | Canonical site URL |
-| `NEXT_PUBLIC_SUPABASE_URL` | Same Supabase project as the Exchange |
+| `NEXT_PUBLIC_SUPABASE_URL` | Same Supabase project as the Exchange (`https://vylhcsbbihpbrgpadxio.supabase.co`) |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Public anon / publishable key |
 | `WAITMINT_API_URL` | Server-side Exchange API origin |
 | `NEXT_PUBLIC_WAITMINT_API_URL` | Public catalog / config origin |
 | `NEXT_PUBLIC_CHROME_EXTENSION_URL` | Chrome Web Store listing |
 
-Never put `SUPABASE_SERVICE_ROLE_KEY` or database passwords in this repository.
+Never put `SUPABASE_SERVICE_ROLE_KEY`, `sb_secret_…`, or database passwords in this repository.
 
-Local development talks to local Supabase + `http://127.0.0.1:3001`. Production must use hosted URLs.
+Local website development uses the hosted Auth project (or `supabase start` from this folder). Production must not use localhost for the Exchange API.
 
 ### Supabase Auth
 
@@ -150,8 +150,8 @@ Configure these in the Vercel dashboard. Never put real secrets in git or in `NE
 | Variable | Production |
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | `https://waitmintai.vercel.app` until `waitmint.ai` is attached |
-| `NEXT_PUBLIC_SUPABASE_URL` | WaitMint Supabase URL, when ready |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | WaitMint anon key, when ready |
+| `NEXT_PUBLIC_SUPABASE_URL` | `https://vylhcsbbihpbrgpadxio.supabase.co` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | WaitMint publishable key (Vercel / `.env.local` only) |
 | `WAITMINT_API_URL` | Hosted Exchange origin only — never localhost |
 | `NEXT_PUBLIC_WAITMINT_API_URL` | Same hosted origin, or leave unset |
 | `NEXT_PUBLIC_CHROME_EXTENSION_URL` | Chrome Web Store listing, when ready |

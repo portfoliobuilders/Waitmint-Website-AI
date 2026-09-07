@@ -2,6 +2,11 @@
 
 Do this in the **same** Supabase project the Exchange uses. Do not create a second Auth project.
 
+- Project ref: `vylhcsbbihpbrgpadxio`
+- API URL: `https://vylhcsbbihpbrgpadxio.supabase.co`
+- Cursor MCP: `.cursor/mcp.json` (scoped to this project)
+- CLI: `npx supabase login` then `npx supabase link --project-ref vylhcsbbihpbrgpadxio`
+
 Redirect URLs (Authentication → URL configuration):
 
 - `http://localhost:3000/auth/callback`
@@ -34,7 +39,7 @@ Do **not** claim Google login works until these exist in the Supabase dashboard:
 
 Supabase callback shape:
 
-`https://<PROJECT_REF>.supabase.co/auth/v1/callback`
+`https://vylhcsbbihpbrgpadxio.supabase.co/auth/v1/callback`
 
 After the provider is saved, test:
 
