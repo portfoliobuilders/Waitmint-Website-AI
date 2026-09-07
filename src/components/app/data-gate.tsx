@@ -19,7 +19,7 @@ export function DataGate({
     return (
       <EmptyState
         title="Connect the Exchange to see live numbers"
-        body="This dashboard reads wallets, campaigns, and settlements from the WaitMint API. Add WAITMINT_API_URL and Supabase Auth keys locally. Sample earnings are never shown."
+        body="This dashboard reads wallets, campaigns, and settlements from the hosted WaitMint API. Until that API and Auth are configured, live account data is unavailable. Sample earnings are never shown."
         tone="warning"
       />
     );

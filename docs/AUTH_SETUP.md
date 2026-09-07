@@ -5,9 +5,10 @@ Do this in the **same** Supabase project the Exchange uses. Do not create a seco
 Redirect URLs (Authentication → URL configuration):
 
 - `http://localhost:3000/auth/callback`
-- `https://waitmint.ai/auth/callback`
+- `https://waitmintai.vercel.app/auth/callback`
+- `https://waitmint.ai/auth/callback` (add when the custom domain is attached)
 
-Site URL: `https://waitmint.ai` for production, `http://localhost:3000` for local.
+Site URL: the live public origin. Use `http://localhost:3000` locally, `https://waitmintai.vercel.app` on the current Vercel production alias, and `https://waitmint.ai` after DNS is attached.
 
 ## Email / password
 
@@ -38,7 +39,8 @@ Supabase callback shape:
 After the provider is saved, test:
 
 - local: Sign in with Google from `http://localhost:3000/login`
-- production: Sign in with Google from `https://waitmint.ai/login`
+- Vercel production alias: Sign in with Google from `https://waitmintai.vercel.app/login`
+- custom domain (later): Sign in with Google from `https://waitmint.ai/login`
 
 Until that configuration exists, the website button will fail at the provider, not in application code.
 

@@ -1,9 +1,11 @@
 import type { NextConfig } from "next";
-import { assertProductionUrls } from "./src/lib/config";
+import { assertProductionUrls, isLoopbackUrl } from "./src/lib/config";
 
 assertProductionUrls();
 
-const waitmintApi = process.env.WAITMINT_API_URL?.replace(/\/$/, "") ?? "";
+const rawApi = process.env.WAITMINT_API_URL?.replace(/\/$/, "") ?? "";
+const waitmintApi =
+  process.env.NODE_ENV === "production" && isLoopbackUrl(rawApi) ? "" : rawApi;
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1", "localhost"],
