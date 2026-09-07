@@ -18,7 +18,19 @@ type Dash = {
 export default async function AdvertiserHomePage() {
   const { session } = await requireUser();
   const token = session?.access_token;
-  if (!token) return <DataGate kind="unconfigured" />;
+  if (!token) {
+    return (
+      <div>
+        <h1 className="font-display text-4xl">Buy verified AI attention.</h1>
+        <p className="mt-2 text-sm text-[var(--wm-muted)]">
+          Spend and impressions are Exchange totals only. Sample campaign performance is never shown.
+        </p>
+        <div className="mt-8">
+          <DataGate kind="unconfigured" />
+        </div>
+      </div>
+    );
+  }
   const me = await callWaitmint<{ onboarded?: boolean }>("/api/ads/me", { accessToken: token });
   if (me.ok && me.data.onboarded === false) {
     return (

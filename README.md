@@ -87,11 +87,11 @@ npm run test:e2e
 
 ## Routes
 
-Public: `/` `/earn` `/advertise` `/how-it-works` `/verified-attention` `/platforms` `/trust` `/pricing` `/about` `/blog` `/faq` `/privacy` `/terms`
+Public: `/` `/earn` `/advertise` `/how-it-works` `/verified-attention` `/platforms` `/products` `/trust` `/pricing` `/about` `/blog` `/faq` `/privacy` `/terms`
 
 Auth: `/login` `/signup` `/forgot-password` `/auth/callback`
 
-User: `/dashboard` `/dashboard/wallet` `/dashboard/earnings` `/dashboard/activity` `/dashboard/payouts` `/dashboard/extension` `/dashboard/settings` `/dashboard/security`
+User: `/dashboard` `/dashboard/wallet` `/dashboard/earnings` `/dashboard/activity` `/dashboard/payouts` `/dashboard/connections` `/dashboard/extension` `/dashboard/settings` `/dashboard/security`
 
 Advertiser: `/advertiser` `/advertiser/onboarding` `/advertiser/campaigns` `/advertiser/campaigns/new` `/advertiser/campaigns/[id]` `/advertiser/creatives` `/advertiser/billing` `/advertiser/analytics` `/advertiser/settings`
 

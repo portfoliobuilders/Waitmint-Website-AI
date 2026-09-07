@@ -1,5 +1,5 @@
 import { AuthForm } from "@/components/auth/auth-form";
-import { SiteHeader } from "@/components/marketing/site-header";
+import { AuthScreen } from "@/components/auth/auth-screen";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -11,11 +11,8 @@ export const metadata = pageMetadata({
 
 export default function ForgotPasswordPage() {
   return (
-    <div className="min-h-full">
-      <SiteHeader signedIn={false} />
-      <main className="px-4 py-16">
-        <AuthForm mode="forgot" />
-      </main>
-    </div>
+    <AuthScreen>
+      <AuthForm mode="forgot" />
+    </AuthScreen>
   );
 }

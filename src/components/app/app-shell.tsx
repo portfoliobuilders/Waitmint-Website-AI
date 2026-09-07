@@ -14,7 +14,7 @@ const NAV: Record<AppArea, Array<{ href: string; label: string }>> = {
     { href: "/dashboard/earnings", label: "Earnings" },
     { href: "/dashboard/activity", label: "Activity" },
     { href: "/dashboard/payouts", label: "Payouts" },
-    { href: "/dashboard/extension", label: "Extension" },
+    { href: "/dashboard/connections", label: "Connections" },
     { href: "/dashboard/settings", label: "Settings" },
     { href: "/dashboard/security", label: "Security" },
   ],
@@ -125,7 +125,7 @@ export function AppShell({
               href={item.href}
               className={cn(
                 "inline-flex min-h-11 items-center rounded-full px-3 text-sm whitespace-nowrap",
-                pathname === item.href
+                pathname === item.href || (item.href === "/dashboard/connections" && pathname === "/dashboard/extension")
                   ? "bg-[var(--wm-mint-dim)] text-[var(--wm-mint)]"
                   : "text-[var(--wm-muted)] hover:text-[var(--wm-text)]",
               )}

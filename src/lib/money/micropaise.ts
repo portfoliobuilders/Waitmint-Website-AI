@@ -58,10 +58,9 @@ export function formatCpmFromMicropaise(cpmMicropaise: number | null | undefined
 /**
  * Illustrative estimate only — never persist. Uses integer floor math.
  */
-export function illustrativeUserShareMicropaise(
+export function illustrativeGrossMicropaise(
   qualifyingWaits: number,
   cpmInrInteger: number,
-  userShareBps: number = DEFAULT_USER_REVENUE_SHARE_BPS,
 ): number {
   if (
     !Number.isSafeInteger(qualifyingWaits) ||
@@ -72,6 +71,26 @@ export function illustrativeUserShareMicropaise(
     return 0;
   }
   const cpmMicropaise = cpmInrInteger * MICROPAISE_PER_INR;
-  const gross = Math.floor((cpmMicropaise * qualifyingWaits) / 1000);
-  return Math.floor((gross * userShareBps) / BPS_DENOMINATOR);
+  return Math.floor((cpmMicropaise * qualifyingWaits) / 1000);
+}
+
+export function illustrativeSettlementSplit(
+  qualifyingWaits: number,
+  cpmInrInteger: number,
+  userShareBps: number = DEFAULT_USER_REVENUE_SHARE_BPS,
+): { gross: number; user: number; platform: number } {
+  const gross = illustrativeGrossMicropaise(qualifyingWaits, cpmInrInteger);
+  const user = Math.floor((gross * userShareBps) / BPS_DENOMINATOR);
+  return { gross, user, platform: gross - user };
+}
+
+/**
+ * Illustrative estimate only — never persist. Uses integer floor math.
+ */
+export function illustrativeUserShareMicropaise(
+  qualifyingWaits: number,
+  cpmInrInteger: number,
+  userShareBps: number = DEFAULT_USER_REVENUE_SHARE_BPS,
+): number {
+  return illustrativeSettlementSplit(qualifyingWaits, cpmInrInteger, userShareBps).user;
 }

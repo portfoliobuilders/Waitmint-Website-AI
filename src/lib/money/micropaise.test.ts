@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   asMicropaiseInteger,
   formatInrFromMicropaise,
+  illustrativeSettlementSplit,
   illustrativeUserShareMicropaise,
 } from "./micropaise";
 
@@ -26,5 +27,9 @@ describe("micropaise display helpers", () => {
     const share = illustrativeUserShareMicropaise(qualifying, 10);
     expect(Number.isInteger(share)).toBe(true);
     expect(share).toBe(6_000);
+    const split = illustrativeSettlementSplit(qualifying, 10);
+    expect(split.user + split.platform).toBe(split.gross);
+    expect(split.user).toBe(6_000);
+    expect(split.platform).toBe(4_000);
   });
 });

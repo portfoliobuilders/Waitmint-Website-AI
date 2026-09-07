@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { HeroDemo } from "@/components/marketing/hero-demo";
+import { ProductGrid } from "@/components/marketing/product-grid";
 import { VerifiedFlow } from "@/components/marketing/verified-flow";
 import { chromeExtensionUrl, siteConfig } from "@/lib/config";
 import { pageMetadata } from "@/lib/seo";
@@ -48,9 +49,14 @@ export default function HomePage() {
                 Advertise with WaitMint
               </Link>
             </div>
-            <Link href="/how-it-works" className="mt-4 inline-block text-sm text-[var(--wm-aqua)]">
-              See how it works
-            </Link>
+            <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2">
+              <Link href="/how-it-works" className="inline-flex min-h-11 items-center text-sm text-[var(--wm-aqua)]">
+                See how it works
+              </Link>
+              <Link href="/pricing" className="inline-flex min-h-11 items-center text-sm text-[var(--wm-aqua)]">
+                Open the illustrative calculator
+              </Link>
+            </div>
             <ul className="mt-8 flex flex-wrap gap-2">
               {CHIPS.map((chip) => (
                 <li
@@ -82,6 +88,20 @@ export default function HomePage() {
           ))}
         </div>
         <p className="mt-8 text-xl font-medium text-[var(--wm-mint)]">{siteConfig.qualificationLine}</p>
+      </section>
+
+      <section className="border-y border-[var(--wm-line)] bg-[var(--wm-bg-elevated)]/40">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--wm-muted)]">The WaitMint stack</p>
+          <h2 className="font-display mt-3 text-4xl">Extension. SDK. App.</h2>
+          <p className="mt-4 max-w-2xl text-[var(--wm-muted)]">
+            One identity across every client. Only the Chrome extension is live for wait detection
+            today. SDK and App open with the hosted Exchange and never keep a second wallet.
+          </p>
+          <div className="mt-10">
+            <ProductGrid compact />
+          </div>
+        </div>
       </section>
 
       <section className="border-y border-[var(--wm-line)] bg-[var(--wm-bg-elevated)]/50">

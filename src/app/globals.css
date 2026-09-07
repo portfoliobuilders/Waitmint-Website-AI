@@ -67,6 +67,44 @@ body {
   box-shadow: 0 0 0 1px rgba(62, 230, 182, 0.18), 0 20px 80px rgba(62, 230, 182, 0.08);
 }
 
+.wm-range {
+  appearance: none;
+  height: 0.7rem;
+  cursor: pointer;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(62, 230, 182, 0.95) 0%,
+    rgba(62, 230, 182, 0.95) var(--wm-range-fill, 50%),
+    rgba(244, 246, 248, 0.12) var(--wm-range-fill, 50%),
+    rgba(244, 246, 248, 0.12) 100%
+  );
+}
+
+.wm-range::-moz-range-track {
+  height: 0.7rem;
+  border-radius: 999px;
+  background: rgba(244, 246, 248, 0.12);
+}
+
+.wm-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 999px;
+  background: #f4f6f8;
+  box-shadow: 0 0 0 4px rgba(62, 230, 182, 0.28);
+}
+
+.wm-range::-moz-range-thumb {
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 0;
+  border-radius: 999px;
+  background: #f4f6f8;
+  box-shadow: 0 0 0 4px rgba(62, 230, 182, 0.28);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

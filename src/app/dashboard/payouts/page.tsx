@@ -1,3 +1,4 @@
+import { UnconfiguredAccount } from "@/components/app/connection-board";
 import { DataGate } from "@/components/app/data-gate";
 import { PayoutForm } from "@/components/dashboard/payout-form";
 import { StatCard } from "@/components/ui/card";
@@ -9,12 +10,41 @@ import { formatInrFromMicropaise } from "@/lib/money/micropaise";
 export default async function PayoutsPage() {
   const { session } = await requireUser();
   const token = session?.access_token;
-  if (!token) return <DataGate kind="unconfigured" />;
+  if (!token) {
+    return (
+      <div>
+        <h1 className="font-display text-4xl">Payouts</h1>
+        <p className="mt-3 max-w-2xl text-sm text-[var(--wm-muted)]">
+          Payouts are requested from Exchange available balance after a WaitMint client has credited
+          wait time. This website does not invent a redeemable amount.
+        </p>
+        <div className="mt-8">
+          <UnconfiguredAccount />
+        </div>
+      </div>
+    );
+  }
   const [wallet, redemptions] = await Promise.all([
     callWaitmint<WalletPayload>("/api/v1/me/wallet", { accessToken: token }),
     callWaitmint<{ redemptions?: Redemption[] }>("/api/v1/me/redemptions", { accessToken: token }),
   ]);
-  if (!wallet.ok) return <DataGate kind={wallet.kind === "error" ? "offline" : wallet.kind} message={wallet.message} />;
+  if (!wallet.ok) {
+    if (wallet.kind === "unconfigured") {
+      return (
+        <div>
+          <h1 className="font-display text-4xl">Payouts</h1>
+          <p className="mt-3 max-w-2xl text-sm text-[var(--wm-muted)]">
+            Payouts are requested from Exchange available balance after a WaitMint client has credited
+            wait time. This website does not invent a redeemable amount.
+          </p>
+          <div className="mt-8">
+            <UnconfiguredAccount />
+          </div>
+        </div>
+      );
+    }
+    return <DataGate kind={wallet.kind === "error" ? "offline" : wallet.kind} message={wallet.message} />;
+  }
   const rows = redemptions.ok ? (redemptions.data.redemptions ?? []) : [];
 
   return (

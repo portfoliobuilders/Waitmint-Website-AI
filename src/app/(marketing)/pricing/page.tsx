@@ -1,11 +1,13 @@
 import Link from "next/link";
+import { EarningsCalculator } from "@/components/marketing/earnings-calculator";
+import { ProductGrid } from "@/components/marketing/product-grid";
 import { chromeExtensionUrl, PLATFORM_SHARE_PERCENT, siteConfig, USER_SHARE_PERCENT } from "@/lib/config";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Pricing",
   description:
-    "The WaitMint extension is free. Users receive 60% of qualifying settled revenue. Advertisers pay only on qualification, with CPM, budget, and Private Pilot Funding.",
+    "The WaitMint extension is free. Users receive 60% of qualifying settled revenue. Advertisers pay only on qualification. SDK and App use the same wallet — they are not extra plans.",
   path: "/pricing",
 });
 
@@ -19,7 +21,7 @@ export default function PricingPage() {
             No subscription theatre.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--wm-muted)]">
-            Users keep the extension free and receive {USER_SHARE_PERCENT}% of qualifying settled
+            Users keep every client free and receive {USER_SHARE_PERCENT}% of qualifying settled
             revenue. Advertisers pay only when an impression qualifies. There are no launch
             discounts, no fake list prices, and no guaranteed earnings.
           </p>
@@ -27,12 +29,30 @@ export default function PricingPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+        <p className="text-xs uppercase tracking-[0.16em] text-[var(--wm-mint)]">Clients</p>
+        <h2 className="font-display mt-3 text-4xl">Extension, SDK, and App — one split</h2>
+        <p className="mt-4 max-w-2xl text-sm leading-6 text-[var(--wm-muted)]">
+          WaitMint does not sell three wallets. The Chrome extension is live. SDK and App open with
+          the hosted Exchange and display the same integers.
+        </p>
+        <div className="mt-10">
+          <ProductGrid compact />
+        </div>
+      </section>
+
+      <section className="border-y border-[var(--wm-line)] bg-[var(--wm-bg-elevated)]/40">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <EarningsCalculator />
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
         <div className="grid gap-6 lg:grid-cols-2">
           <article className="rounded-3xl border border-[var(--wm-line)] bg-[var(--wm-bg-elevated)] p-8">
             <p className="text-xs uppercase tracking-[0.16em] text-[var(--wm-mint)]">Users</p>
-            <h2 className="font-display mt-3 text-3xl">Free extension</h2>
+            <h2 className="font-display mt-3 text-3xl">Free to earn</h2>
             <p className="mt-4 text-sm leading-6 text-[var(--wm-muted)]">
-              Add WaitMint to Chrome at no charge. You create the attention. You receive{" "}
+              Add WaitMint at no charge. You create the attention. You receive{" "}
               {USER_SHARE_PERCENT}% of qualifying settled revenue. WaitMint receives{" "}
               {PLATFORM_SHARE_PERCENT}%.
             </p>
@@ -73,7 +93,7 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="border-y border-[var(--wm-line)] bg-[var(--wm-bg-elevated)]/50">
+      <section className="border-t border-[var(--wm-line)] bg-[var(--wm-bg-elevated)]/50">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
           <h2 className="font-display text-4xl">What we will not put on this page</h2>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--wm-muted)]">

@@ -8,8 +8,9 @@ const GROUPS = [
       { href: "/earn", label: "Earn" },
       { href: "/advertise", label: "Advertise" },
       { href: "/how-it-works", label: "How it works" },
-      { href: "/verified-attention", label: "Verified Attention" },
+      { href: "/products", label: "Products" },
       { href: "/platforms", label: "Platforms" },
+      { href: "/pricing", label: "Pricing" },
     ],
   },
   {
@@ -17,7 +18,6 @@ const GROUPS = [
     links: [
       { href: "/about", label: "About" },
       { href: "/trust", label: "Trust" },
-      { href: "/pricing", label: "Pricing" },
       { href: "/blog", label: "Blog" },
       { href: "/faq", label: "FAQ" },
     ],

@@ -27,13 +27,14 @@ export function LinkTokenPanel() {
   }
 
   return (
-    <div className="rounded-2xl border border-[var(--wm-line)] bg-[var(--wm-bg-elevated)] p-6">
-      <h2 className="text-lg font-medium">Connect WaitMint Extension</h2>
+    <div className="rounded-3xl border border-[var(--wm-line)] bg-[var(--wm-bg-elevated)] p-6 wm-glow">
+      <p className="text-xs uppercase tracking-[0.16em] text-[var(--wm-mint)]">Chrome extension</p>
+      <h2 className="mt-2 text-lg font-medium">Connect this browser</h2>
       <p className="mt-2 text-sm text-[var(--wm-muted)]">
-        Generate a one-time code. Enter it in the extension popup. The code expires quickly and cannot be reused.
+        Generate a one-time code. Enter it in the extension popup. The code expires quickly and cannot be reused. This maps omniUserId — it does not delete it.
       </p>
       <Button type="button" className="mt-5" onClick={createToken} disabled={pending}>
-        Connect Extension
+        Generate connection code
       </Button>
       {token ? (
         <p className="mt-5 font-mono text-3xl tracking-[0.18em] text-[var(--wm-mint)]">{token}</p>

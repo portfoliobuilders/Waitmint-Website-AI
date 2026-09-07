@@ -1,5 +1,6 @@
+import { UnconfiguredAccount } from "@/components/app/connection-board";
 import { DataGate } from "@/components/app/data-gate";
-import { Card, StatCard } from "@/components/ui/card";
+import { WalletHero } from "@/components/app/wallet-hero";
 import { requireUser } from "@/lib/auth/guards";
 import { callWaitmint } from "@/lib/api/waitmint";
 import type { LedgerEntry, WalletPayload } from "@/lib/api/types";
@@ -9,14 +10,45 @@ import { formatInrFromMicropaise } from "@/lib/money/micropaise";
 export default async function WalletPage() {
   const { session } = await requireUser();
   const token = session?.access_token;
-  if (!token) return <DataGate kind="unconfigured" />;
+  if (!token) {
+    return (
+      <div>
+        <h1 className="font-display text-4xl">Wallet</h1>
+        <p className="mt-2 text-sm text-[var(--wm-muted)]">
+          One Exchange wallet. Extension, SDK, and App never keep a second balance.
+        </p>
+        <div className="mt-8">
+          <WalletHero available={null} lifetime={null} pending={null} withdrawn={null} live={false} />
+        </div>
+        <div className="mt-8">
+          <UnconfiguredAccount />
+        </div>
+      </div>
+    );
+  }
 
   const [wallet, ledger] = await Promise.all([
     callWaitmint<WalletPayload>("/api/v1/me/wallet", { accessToken: token }),
     callWaitmint<{ entries?: LedgerEntry[]; ledger?: LedgerEntry[] }>("/api/v1/me/ledger", { accessToken: token }),
   ]);
 
-  if (!wallet.ok) return <DataGate kind={wallet.kind === "error" ? "offline" : wallet.kind} message={wallet.message} />;
+  if (!wallet.ok) {
+    return (
+      <div>
+        <h1 className="font-display text-4xl">Wallet</h1>
+        <div className="mt-8">
+          <WalletHero available={null} lifetime={null} pending={null} withdrawn={null} live={false} />
+        </div>
+        <div className="mt-8">
+          {wallet.kind === "unconfigured" ? (
+            <UnconfiguredAccount />
+          ) : (
+            <DataGate kind={wallet.kind === "error" ? "offline" : wallet.kind} message={wallet.message} />
+          )}
+        </div>
+      </div>
+    );
+  }
   const rows = ledger.ok ? (ledger.data.entries ?? ledger.data.ledger ?? []) : [];
 
   return (
@@ -26,23 +58,21 @@ export default async function WalletPage() {
         This is the Exchange wallet. The website does not keep a second balance.
       </p>
       <div className="mt-8">
-        <Card className="wm-glow">
-          <p className="text-xs uppercase tracking-[0.16em] text-[var(--wm-muted)]">Available balance</p>
-          <p className="font-display mt-3 text-5xl">{formatInrFromMicropaise(wallet.data.availableMicropaise)}</p>
-        </Card>
-      </div>
-      <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        <StatCard label="Lifetime earned" value={formatInrFromMicropaise(wallet.data.lifetimeEarnedMicropaise)} />
-        <StatCard
-          label="This month"
-          value="—"
-          hint="Shown only when the Exchange returns a period total."
+        <WalletHero
+          available={wallet.data.availableMicropaise}
+          lifetime={wallet.data.lifetimeEarnedMicropaise}
+          pending={wallet.data.pendingMicropaise}
+          withdrawn={wallet.data.lifetimePaidMicropaise}
+          live
         />
-        <StatCard label="Verified waits" value="—" hint="Count appears when the API provides it." />
       </div>
       <h2 className="mt-10 text-lg font-medium">Transactions</h2>
       {rows.length === 0 ? (
-        <DataGate kind="empty" emptyTitle="You're connected. Qualifying advertiser-funded waits will appear here." emptyBody="Qualifying settlements will appear as integer micropaise credits." />
+        <DataGate
+          kind="empty"
+          emptyTitle="You're connected. Qualifying advertiser-funded waits will appear here."
+          emptyBody="Qualifying settlements will appear as integer micropaise credits."
+        />
       ) : (
         <div className="mt-4 overflow-x-auto">
           <table className="min-w-full text-left text-sm">

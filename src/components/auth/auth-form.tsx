@@ -157,6 +157,9 @@ export function AuthForm({
           <Button type="button" variant="secondary" className="w-full" onClick={onGoogle}>
             Continue with Google
           </Button>
+          <p className="text-center text-xs text-[var(--wm-muted)]">
+            Google works after the WaitMint Auth Google provider is enabled. Email is already on.
+          </p>
           <Button type="button" variant="ghost" className="w-full" onClick={onMagicLink} disabled={!email || pending}>
             Email me a magic link
           </Button>
