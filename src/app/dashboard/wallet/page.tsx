@@ -42,7 +42,7 @@ export default async function WalletPage() {
       </div>
       <h2 className="mt-10 text-lg font-medium">Transactions</h2>
       {rows.length === 0 ? (
-        <DataGate kind="empty" emptyTitle="No ledger rows yet" emptyBody="Qualifying settlements will appear as integer micropaise credits." />
+        <DataGate kind="empty" emptyTitle="You're connected. Qualifying advertiser-funded waits will appear here." emptyBody="Qualifying settlements will appear as integer micropaise credits." />
       ) : (
         <div className="mt-4 overflow-x-auto">
           <table className="min-w-full text-left text-sm">

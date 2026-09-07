@@ -20,7 +20,7 @@ export default async function EarningsPage() {
       <div>
         <h1 className="font-display text-4xl">Earnings</h1>
         <div className="mt-8">
-          <DataGate kind="empty" emptyTitle="No earnings yet" emptyBody="Use a supported AI product with the extension connected. No qualification means no earning." />
+          <DataGate kind="empty" emptyTitle="You're connected. Qualifying advertiser-funded waits will appear here." emptyBody="Use a supported AI product with the extension connected. No qualification means no earning." />
         </div>
       </div>
     );

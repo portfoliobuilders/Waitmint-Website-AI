@@ -114,6 +114,14 @@ export type Campaign = {
   createdAt?: string;
 };
 
+export function linkedExtensionsFromPayload(data: {
+  extensions?: ExtensionLink[];
+  installations?: ExtensionLink[];
+  links?: ExtensionLink[];
+} | null | undefined): ExtensionLink[] {
+  return data?.extensions ?? data?.installations ?? data?.links ?? [];
+}
+
 export type LoadState<T> =
   | { status: "loading" }
   | { status: "unconfigured" }

@@ -56,8 +56,9 @@ export function PayoutForm() {
       {error ? <p className="text-sm text-[var(--wm-danger)]">{error}</p> : null}
       {message ? <p className="text-sm text-[var(--wm-mint)]">{message}</p> : null}
       <Button type="submit" disabled={pending}>
-        Request payout
+        Request Pilot Payout
       </Button>
+      <p className="text-xs text-[var(--wm-muted)]">Manually reviewed. The Exchange decides the available amount — this form does not send a balance.</p>
     </form>
   );
 }

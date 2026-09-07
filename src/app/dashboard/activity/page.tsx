@@ -21,7 +21,11 @@ export default async function ActivityPage() {
       <p className="mt-2 text-sm text-[var(--wm-muted)]">Ledger activity from the Exchange, including linked installs.</p>
       {rows.length === 0 ? (
         <div className="mt-8">
-          <DataGate kind="empty" />
+          <DataGate
+            kind="empty"
+            emptyTitle="You're connected. Qualifying advertiser-funded waits will appear here."
+            emptyBody="When the Exchange records a qualifying settlement, it will appear here."
+          />
         </div>
       ) : (
         <ul className="mt-8 divide-y divide-[var(--wm-line)]">
