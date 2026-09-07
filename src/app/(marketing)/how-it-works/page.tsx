@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProductGrid } from "@/components/marketing/product-grid";
 import { VerifiedFlow } from "@/components/marketing/verified-flow";
 import { chromeExtensionUrl, siteConfig, USER_SHARE_PERCENT } from "@/lib/config";
 import { pageMetadata } from "@/lib/seo";
@@ -59,6 +60,19 @@ export default function HowItWorksPage() {
               <p className="mt-3 text-sm leading-6 text-[var(--wm-muted)]">{step.body}</p>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="border-y border-[var(--wm-line)] bg-[var(--wm-bg-elevated)]/40">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <h2 className="font-display text-4xl">The clients in the loop</h2>
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-[var(--wm-muted)]">
+            Detection lives in the Chrome extension today. SDK and App attach to the same identity
+            when the hosted Exchange opens them.
+          </p>
+          <div className="mt-10">
+            <ProductGrid compact />
+          </div>
         </div>
       </section>
 

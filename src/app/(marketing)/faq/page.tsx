@@ -58,6 +58,14 @@ const FAQS = [
     q: "Is the extension free?",
     a: "Yes. There is no subscription to earn. You receive 60% of qualifying settled revenue. There are no advertised discounts because there is no paid user plan to discount.",
   },
+  {
+    q: "What about the SDK and the WaitMint app?",
+    a: "They are the same WaitMint identity, not extra wallets. The Chrome extension is the live client for wait detection. The SDK is for product teams; the app is a companion. Both open with the hosted Exchange and display Exchange integers only. They are not live store or npm listings today.",
+  },
+  {
+    q: "Where do I connect my browser?",
+    a: "Sign in, open Dashboard → Connections, generate a one-time code, and enter it in the extension popup. That maps the install ID to your account. It does not delete omniUserId.",
+  },
 ];
 
 export default function FaqPage() {

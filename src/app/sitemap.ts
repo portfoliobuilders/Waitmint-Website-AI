@@ -8,6 +8,7 @@ const paths = [
   "/how-it-works",
   "/verified-attention",
   "/platforms",
+  "/products",
   "/trust",
   "/pricing",
   "/about",

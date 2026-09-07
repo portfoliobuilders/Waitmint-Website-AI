@@ -1,5 +1,5 @@
 import { AuthForm } from "@/components/auth/auth-form";
-import { SiteHeader } from "@/components/marketing/site-header";
+import { AuthScreen } from "@/components/auth/auth-screen";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -17,11 +17,8 @@ export default async function LoginPage({
   const params = await searchParams;
   const nextPath = params.next?.startsWith("/") ? params.next : "/dashboard";
   return (
-    <div className="min-h-full">
-      <SiteHeader signedIn={false} />
-      <main className="px-4 py-16">
-        <AuthForm mode="login" nextPath={nextPath} />
-      </main>
-    </div>
+    <AuthScreen>
+      <AuthForm mode="login" nextPath={nextPath} />
+    </AuthScreen>
   );
 }

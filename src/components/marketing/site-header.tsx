@@ -4,8 +4,8 @@ import { chromeExtensionUrl } from "@/lib/config";
 const NAV = [
   { href: "/earn", label: "Earn" },
   { href: "/advertise", label: "Advertise" },
-  { href: "/how-it-works", label: "How it works" },
-  { href: "/platforms", label: "Platforms" },
+  { href: "/products", label: "Products" },
+  { href: "/pricing", label: "Pricing" },
   { href: "/trust", label: "Trust" },
 ];
 

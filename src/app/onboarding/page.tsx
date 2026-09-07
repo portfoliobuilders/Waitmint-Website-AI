@@ -12,8 +12,8 @@ export const metadata = pageMetadata({
 
 const STEPS = [
   ["1", "Welcome to WaitMint", "One account. One wallet. Real advertiser-funded settlement."],
-  ["2", "Install the extension", "Keep using supported AI products normally."],
-  ["3", "Connect this browser", "Generate a one-time code on the Extension page and enter it in the popup."],
+  ["2", "Install a WaitMint client", "Chrome extension is live. SDK and App use the same identity when they open."],
+  ["3", "Connect this browser", "Generate a one-time code on Connections and enter it in the popup."],
   ["4", "Start using supported AI", "Earnings appear only after a qualifying impression settles."],
 ];
 
@@ -40,7 +40,7 @@ export default async function OnboardingPage() {
           Install extension
         </a>
         <Link
-          href="/dashboard/extension"
+          href="/dashboard/connections"
           className="inline-flex min-h-11 items-center justify-center rounded-full border border-[var(--wm-line-strong)] px-5 text-sm"
         >
           Connect this browser

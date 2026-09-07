@@ -1,5 +1,5 @@
 import { ConnectionsView } from "@/components/dashboard/connections-view";
 
-export default async function ExtensionPage() {
+export default async function ConnectionsPage() {
   return <ConnectionsView />;
 }

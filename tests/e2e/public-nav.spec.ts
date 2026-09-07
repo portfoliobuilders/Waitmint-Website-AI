@@ -32,6 +32,31 @@ test("trust and advertise pages render", async ({ page }) => {
   await expect(page.getByRole("heading", { name: /Buy verified AI attention/i })).toBeVisible();
 });
 
+test("products page lists extension, sdk, and app", async ({ page }) => {
+  await page.goto("/products");
+  await expect(page.getByRole("heading", { name: /Extension. SDK. App./i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "WaitMint Extension" }).first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "WaitMint SDK" }).first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "WaitMint App" }).first()).toBeVisible();
+});
+
+test("pricing calculator accepts intensity presets", async ({ page }) => {
+  await page.goto("/pricing");
+  await expect(page.getByRole("heading", { name: /No subscription theatre/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /See a qualifying month/i })).toBeVisible();
+  await page.getByRole("button", { name: "Heavy" }).click();
+  await expect(page.getByRole("button", { name: "Heavy" })).toBeVisible();
+  await page.getByRole("button", { name: /SDK/ }).click();
+  await expect(page.getByText(/same 60\/40 split/i)).toBeVisible();
+});
+
+test("login shows one identity and the sign-in form", async ({ page }) => {
+  await page.goto("/login");
+  await expect(page.getByRole("heading", { name: /Sign in once/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Welcome back/i })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Sign in" })).toBeVisible();
+});
+
 const WIDTHS = [360, 375, 390, 430, 768, 1024, 1280, 1440, 1920];
 
 for (const width of WIDTHS) {
@@ -42,8 +67,10 @@ for (const width of WIDTHS) {
     if (width < 768) {
       await page.getByLabel("Open menu").click();
       await expect(page.locator("#mobile-nav").getByRole("link", { name: "Earn" })).toBeVisible();
+      await expect(page.locator("#mobile-nav").getByRole("link", { name: "Products" })).toBeVisible();
     } else {
       await expect(page.getByRole("navigation", { name: "Primary" })).toBeVisible();
+      await expect(page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Products" })).toBeVisible();
     }
   });
 }

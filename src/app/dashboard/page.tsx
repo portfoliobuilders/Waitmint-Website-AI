@@ -1,7 +1,9 @@
 import Link from "next/link";
+import { UnconfiguredAccount } from "@/components/app/connection-board";
 import { DataGate } from "@/components/app/data-gate";
+import { WalletHero } from "@/components/app/wallet-hero";
 import { Button } from "@/components/ui/button";
-import { Card, StatCard } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { requireMe } from "@/lib/auth/guards";
 import { callWaitmint } from "@/lib/api/waitmint";
 import type { ExtensionLink, LedgerEntry, WalletPayload } from "@/lib/api/types";
@@ -12,7 +14,20 @@ export default async function DashboardPage() {
   const { session, meError } = await requireMe();
   const token = session?.access_token;
   if (!token || meError === "unconfigured") {
-    return <DataGate kind="unconfigured" />;
+    return (
+      <div>
+        <h1 className="font-display text-4xl">Dashboard</h1>
+        <p className="mt-2 text-sm text-[var(--wm-muted)]">
+          One identity. One Exchange wallet. Extension, SDK, and App never keep a second balance.
+        </p>
+        <div className="mt-8">
+          <WalletHero available={null} lifetime={null} pending={null} withdrawn={null} live={false} />
+        </div>
+        <div className="mt-8">
+          <UnconfiguredAccount />
+        </div>
+      </div>
+    );
   }
 
   const [wallet, earnings, extensions] = await Promise.all([
@@ -46,12 +61,13 @@ export default async function DashboardPage() {
       </p>
       {!connected ? (
         <div className="mt-8 rounded-2xl border border-[var(--wm-mint)]/30 bg-[var(--wm-mint-dim)] p-6">
-          <h2 className="text-xl font-medium">Connect WaitMint Extension</h2>
+          <h2 className="text-xl font-medium">Connect a WaitMint client</h2>
           <p className="mt-2 text-sm text-[var(--wm-muted)]">
-            Link your existing Chrome extension so qualifying waits settle to this account. One identity, one wallet.
+            Link the Chrome extension so qualifying waits settle to this account. SDK and App will
+            use the same identity when they open.
           </p>
-          <Link href="/dashboard/extension" className="mt-5 inline-flex">
-            <Button type="button">Connect WaitMint Extension</Button>
+          <Link href="/dashboard/connections" className="mt-5 inline-flex">
+            <Button type="button">Open connections</Button>
           </Link>
         </div>
       ) : null}
@@ -64,22 +80,24 @@ export default async function DashboardPage() {
           />
         </div>
       ) : null}
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Available" value={formatInrFromMicropaise(w?.availableMicropaise)} />
-        <StatCard label="Lifetime earned" value={formatInrFromMicropaise(w?.lifetimeEarnedMicropaise)} />
-        <StatCard
-          label="Pending"
-          value={w && w.pendingMicropaise > 0 ? formatInrFromMicropaise(w.pendingMicropaise) : "—"}
-          hint="Only shown when the Exchange has real pending state."
+      <div className="mt-8">
+        <WalletHero
+          available={w?.availableMicropaise ?? null}
+          lifetime={w?.lifetimeEarnedMicropaise ?? null}
+          pending={w?.pendingMicropaise ?? null}
+          withdrawn={w?.lifetimePaidMicropaise ?? null}
+          live={Boolean(w)}
         />
-        <StatCard label="Withdrawn" value={formatInrFromMicropaise(w?.lifetimePaidMicropaise)} />
       </div>
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         <Card>
-          <h2 className="text-sm uppercase tracking-[0.14em] text-[var(--wm-muted)]">Extension</h2>
-          <p className="mt-3 text-xl">{connected ? "Connected" : "Not connected"}</p>
-          <Link href="/dashboard/extension" className="mt-4 inline-flex min-h-11 items-center text-sm text-[var(--wm-mint)]">
-            Manage connection
+          <h2 className="text-sm uppercase tracking-[0.14em] text-[var(--wm-muted)]">Connections</h2>
+          <p className="mt-3 text-xl">{connected ? "Extension connected" : "No live client yet"}</p>
+          <p className="mt-2 text-sm text-[var(--wm-muted)]">
+            Chrome is the live client. SDK and App share this identity when they open.
+          </p>
+          <Link href="/dashboard/connections" className="mt-4 inline-flex min-h-11 items-center text-sm text-[var(--wm-mint)]">
+            Manage Extension, SDK, and App
           </Link>
         </Card>
         <Card>

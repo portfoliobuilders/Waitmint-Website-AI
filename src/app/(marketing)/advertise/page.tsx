@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { HeroDemo } from "@/components/marketing/hero-demo";
+import { ProductGrid } from "@/components/marketing/product-grid";
 import { siteConfig } from "@/lib/config";
 import { pageMetadata } from "@/lib/seo";
 
@@ -83,6 +84,20 @@ export default function AdvertisePage() {
               <p className="mt-3 text-sm leading-6 text-[var(--wm-muted)]">{section.body}</p>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="border-y border-[var(--wm-line)] bg-[var(--wm-bg-elevated)]/40">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <h2 className="font-display text-4xl">Where verified waits come from</h2>
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-[var(--wm-muted)]">
+            Advertisers buy inventory that WaitMint clients detect. The Chrome extension is live.
+            SDK inventory opens with the hosted Exchange. The app is a companion, not a second
+            campaign system.
+          </p>
+          <div className="mt-10">
+            <ProductGrid compact />
+          </div>
         </div>
       </section>
 

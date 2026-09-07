@@ -1,3 +1,4 @@
+import { UnconfiguredAccount } from "@/components/app/connection-board";
 import { DataGate } from "@/components/app/data-gate";
 import { requireUser } from "@/lib/auth/guards";
 import { callWaitmint } from "@/lib/api/waitmint";
@@ -8,12 +9,46 @@ import { formatInrFromMicropaise } from "@/lib/money/micropaise";
 export default async function ActivityPage() {
   const { session } = await requireUser();
   const token = session?.access_token;
-  if (!token) return <DataGate kind="unconfigured" />;
+  if (!token) {
+    return (
+      <div>
+        <h1 className="font-display text-4xl">Activity</h1>
+        <p className="mt-2 text-sm text-[var(--wm-muted)]">
+          Ledger activity from the Exchange, including linked installs.
+        </p>
+        <div className="mt-8">
+          <UnconfiguredAccount />
+        </div>
+      </div>
+    );
+  }
   const result = await callWaitmint<{ entries?: LedgerEntry[]; ledger?: LedgerEntry[] }>(
     "/api/v1/me/ledger",
     { accessToken: token },
   );
-  if (!result.ok) return <DataGate kind={result.kind === "error" ? "offline" : result.kind} message={result.message} />;
+  if (!result.ok) {
+    if (result.kind === "unconfigured") {
+      return (
+        <div>
+          <h1 className="font-display text-4xl">Activity</h1>
+          <p className="mt-2 text-sm text-[var(--wm-muted)]">
+            Ledger activity from the Exchange, including linked installs.
+          </p>
+          <div className="mt-8">
+            <UnconfiguredAccount />
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <h1 className="font-display text-4xl">Activity</h1>
+        <div className="mt-8">
+          <DataGate kind={result.kind === "error" ? "offline" : result.kind} message={result.message} />
+        </div>
+      </div>
+    );
+  }
   const rows = result.data.entries ?? result.data.ledger ?? [];
   return (
     <div>

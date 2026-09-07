@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { EarningsCalculator } from "@/components/marketing/earnings-calculator";
+import { ProductGrid } from "@/components/marketing/product-grid";
 import { chromeExtensionUrl, siteConfig, USER_SHARE_PERCENT } from "@/lib/config";
 import { pageMetadata } from "@/lib/seo";
 
@@ -50,6 +51,12 @@ export default function EarnPage() {
             >
               See how it works
             </Link>
+            <Link
+              href="/products"
+              className="inline-flex min-h-11 items-center justify-center rounded-full border border-[var(--wm-line-strong)] px-5 text-sm"
+            >
+              Extension, SDK, App
+            </Link>
           </div>
         </div>
       </section>
@@ -66,6 +73,20 @@ export default function EarnPage() {
           ))}
         </div>
         <p className="mt-8 text-xl font-medium text-[var(--wm-mint)]">{siteConfig.qualificationLine}</p>
+      </section>
+
+      <section className="border-y border-[var(--wm-line)] bg-[var(--wm-bg-elevated)]/40">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--wm-muted)]">Clients</p>
+          <h2 className="font-display mt-3 text-4xl">Earn from one identity</h2>
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-[var(--wm-muted)]">
+            The Chrome extension is the live wait client. SDK and App use this same account and the
+            same 60/40 split when they open. They never keep a second wallet.
+          </p>
+          <div className="mt-10">
+            <ProductGrid compact />
+          </div>
+        </div>
       </section>
 
       <section className="border-y border-[var(--wm-line)] bg-[var(--wm-bg-elevated)]/50">
