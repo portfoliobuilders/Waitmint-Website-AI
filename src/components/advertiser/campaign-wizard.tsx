@@ -92,8 +92,8 @@ export function CampaignWizard({ surfaces }: { surfaces: Surface[] }) {
             const live = surface.serving && surface.verification === "live_verified";
             return (
               <li key={surface.key}>
-                <label className="flex min-h-11 items-center justify-between gap-3 rounded-xl border border-[var(--wm-line)] px-3 text-sm">
-                  <span>
+                <label className="flex min-h-11 items-center justify-between gap-3 rounded-xl border border-[var(--wm-line)] px-3 py-2 text-sm">
+                  <span className="min-w-0">
                     <input
                       type="checkbox"
                       className="mr-3"
@@ -109,7 +109,7 @@ export function CampaignWizard({ surfaces }: { surfaces: Surface[] }) {
                     />
                     {surface.name}
                   </span>
-                  <span className="text-xs text-[var(--wm-muted)]">{live ? "Live Verified" : "Testing"}</span>
+                  <span className="shrink-0 text-xs text-[var(--wm-muted)]">{live ? "Live Verified" : "Testing"}</span>
                 </label>
               </li>
             );
@@ -141,7 +141,7 @@ export function CampaignWizard({ surfaces }: { surfaces: Surface[] }) {
         </p>
       ) : null}
       {error ? <p className="text-sm text-[var(--wm-danger)]">{error}</p> : null}
-      <div className="flex gap-3">
+      <div className="flex flex-wrap gap-3">
         {step > 1 ? (
           <Button type="button" variant="secondary" onClick={() => setStep((n) => n - 1)}>
             Back

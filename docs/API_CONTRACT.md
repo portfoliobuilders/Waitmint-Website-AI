@@ -22,7 +22,7 @@ Never send the service-role key from this app.
 |---|---|---|
 | POST | `/api/v1/auth/extension-link/create` | Returns `{ token, expiresAt }` once. Token format `WM-######`. |
 | POST | `/api/v1/auth/extension-link/redeem` | Body `{ token, installUserId }`. Extension only. |
-| GET | `/api/v1/me` | Profile, roles, org membership flags |
+| GET | `/api/v1/me` | `{ actor, org, onboarded, linkedInstallations }`. `actor.isAdmin` comes from `profiles.role`, never `user_metadata`. |
 | GET | `/api/v1/me/wallet` | Aggregated Exchange wallet |
 | GET | `/api/v1/me/ledger` | Ledger rows (auth + linked installs) |
 | GET | `/api/v1/me/earnings` | Recent earning entries |

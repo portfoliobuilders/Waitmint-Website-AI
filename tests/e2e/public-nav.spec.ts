@@ -31,3 +31,19 @@ test("trust and advertise pages render", async ({ page }) => {
   await page.goto("/advertise");
   await expect(page.getByRole("heading", { name: /Buy verified AI attention/i })).toBeVisible();
 });
+
+const WIDTHS = [360, 375, 390, 430, 768, 1024, 1280, 1440, 1920];
+
+for (const width of WIDTHS) {
+  test(`header stays usable at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/");
+    await expect(page.getByRole("link", { name: "WaitMint" }).first()).toBeVisible();
+    if (width < 768) {
+      await page.getByLabel("Open menu").click();
+      await expect(page.locator("#mobile-nav").getByRole("link", { name: "Earn" })).toBeVisible();
+    } else {
+      await expect(page.getByRole("navigation", { name: "Primary" })).toBeVisible();
+    }
+  });
+}

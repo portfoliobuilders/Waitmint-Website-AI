@@ -136,6 +136,23 @@ export function AppShell({
         </nav>
         {open ? (
           <nav className="border-t border-[var(--wm-line)] px-4 py-3 lg:hidden">
+            {(canAdvertise || isAdmin) ? (
+              <div className="mb-3 flex flex-wrap gap-2">
+                <Link href="/dashboard" className="inline-flex min-h-11 items-center rounded-full border border-[var(--wm-line)] px-3 text-sm">
+                  Earn
+                </Link>
+                {canAdvertise ? (
+                  <Link href="/advertiser" className="inline-flex min-h-11 items-center rounded-full border border-[var(--wm-line)] px-3 text-sm">
+                    Advertise
+                  </Link>
+                ) : null}
+                {isAdmin ? (
+                  <Link href="/admin" className="inline-flex min-h-11 items-center rounded-full border border-[var(--wm-line)] px-3 text-sm">
+                    Admin
+                  </Link>
+                ) : null}
+              </div>
+            ) : null}
             {items.map((item) => (
               <Link
                 key={item.href}

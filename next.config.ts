@@ -1,4 +1,7 @@
 import type { NextConfig } from "next";
+import { assertProductionUrls } from "./src/lib/config";
+
+assertProductionUrls();
 
 const waitmintApi = process.env.WAITMINT_API_URL?.replace(/\/$/, "") ?? "";
 

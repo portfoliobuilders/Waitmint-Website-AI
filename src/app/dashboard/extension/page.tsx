@@ -4,13 +4,18 @@ import { RevokeButton } from "@/components/dashboard/revoke-button";
 import { requireUser } from "@/lib/auth/guards";
 import { callWaitmint, getPublicInventory } from "@/lib/api/waitmint";
 import type { ExtensionLink } from "@/lib/api/types";
+import { linkedExtensionsFromPayload } from "@/lib/api/types";
 
 export default async function ExtensionPage() {
   const { session } = await requireUser();
   const token = session?.access_token;
   if (!token) return <DataGate kind="unconfigured" />;
   const [links, inventory] = await Promise.all([
-    callWaitmint<{ installations?: ExtensionLink[]; links?: ExtensionLink[] }>("/api/v1/me/extensions", {
+    callWaitmint<{
+      extensions?: ExtensionLink[];
+      installations?: ExtensionLink[];
+      links?: ExtensionLink[];
+    }>("/api/v1/me/extensions", {
       accessToken: token,
     }),
     getPublicInventory(),
@@ -18,7 +23,7 @@ export default async function ExtensionPage() {
   if (!links.ok && (links.kind === "unconfigured" || links.kind === "offline" || links.kind === "unauthorized")) {
     return <DataGate kind={links.kind} message={links.message} />;
   }
-  const rows = links.ok ? (links.data.installations ?? links.data.links ?? []) : [];
+  const rows = links.ok ? linkedExtensionsFromPayload(links.data) : [];
   const surfaces = inventory.ok ? inventory.data.inventory : [];
 
   return (

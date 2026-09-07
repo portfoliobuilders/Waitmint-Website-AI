@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { DataGate } from "@/components/app/data-gate";
+import { Button } from "@/components/ui/button";
 import { Card, StatCard } from "@/components/ui/card";
 import { requireMe } from "@/lib/auth/guards";
 import { callWaitmint } from "@/lib/api/waitmint";
 import type { ExtensionLink, LedgerEntry, WalletPayload } from "@/lib/api/types";
+import { entryTypeLabel, linkedExtensionsFromPayload } from "@/lib/api/types";
 import { formatInrFromMicropaise } from "@/lib/money/micropaise";
-import { entryTypeLabel } from "@/lib/api/types";
 
 export default async function DashboardPage() {
   const { session, meError } = await requireMe();
@@ -17,7 +18,11 @@ export default async function DashboardPage() {
   const [wallet, earnings, extensions] = await Promise.all([
     callWaitmint<WalletPayload>("/api/v1/me/wallet", { accessToken: token }),
     callWaitmint<{ earnings?: LedgerEntry[]; entries?: LedgerEntry[] }>("/api/v1/me/earnings", { accessToken: token }),
-    callWaitmint<{ installations?: ExtensionLink[]; links?: ExtensionLink[] }>("/api/v1/me/extensions", { accessToken: token }),
+    callWaitmint<{
+      extensions?: ExtensionLink[];
+      installations?: ExtensionLink[];
+      links?: ExtensionLink[];
+    }>("/api/v1/me/extensions", { accessToken: token }),
   ]);
 
   if (wallet.ok === false && wallet.kind === "offline") {
@@ -29,8 +34,9 @@ export default async function DashboardPage() {
 
   const w = wallet.ok ? wallet.data : null;
   const rows = earnings.ok ? (earnings.data.earnings ?? earnings.data.entries ?? []) : [];
-  const links = extensions.ok ? (extensions.data.installations ?? extensions.data.links ?? []) : [];
+  const links = extensions.ok ? linkedExtensionsFromPayload(extensions.data) : [];
   const connected = links.some((link) => !link.revokedAt);
+  const hasEarnings = (w?.lifetimeEarnedMicropaise ?? 0) > 0 || rows.length > 0;
 
   return (
     <div>
@@ -38,6 +44,26 @@ export default async function DashboardPage() {
       <p className="mt-2 text-sm text-[var(--wm-muted)]">
         Figures come from the WaitMint Exchange. Empty means no qualifying settlements yet.
       </p>
+      {!connected ? (
+        <div className="mt-8 rounded-2xl border border-[var(--wm-mint)]/30 bg-[var(--wm-mint-dim)] p-6">
+          <h2 className="text-xl font-medium">Connect WaitMint Extension</h2>
+          <p className="mt-2 text-sm text-[var(--wm-muted)]">
+            Link your existing Chrome extension so qualifying waits settle to this account. One identity, one wallet.
+          </p>
+          <Link href="/dashboard/extension" className="mt-5 inline-flex">
+            <Button type="button">Connect WaitMint Extension</Button>
+          </Link>
+        </div>
+      ) : null}
+      {connected && !hasEarnings ? (
+        <div className="mt-8">
+          <DataGate
+            kind="empty"
+            emptyTitle="You're connected. Qualifying advertiser-funded waits will appear here."
+            emptyBody="Use a supported AI product with Sponsored Waits on. No qualification. No charge. No earning."
+          />
+        </div>
+      ) : null}
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Available" value={formatInrFromMicropaise(w?.availableMicropaise)} />
         <StatCard label="Lifetime earned" value={formatInrFromMicropaise(w?.lifetimeEarnedMicropaise)} />

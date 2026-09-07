@@ -14,6 +14,7 @@ export const siteConfig = {
 export function publicSiteUrl(): string {
   const raw = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
   if (raw) return raw;
+  if (process.env.NODE_ENV === "production") return "https://waitmint.ai";
   return "http://localhost:3000";
 }
 
@@ -21,6 +22,33 @@ export function waitmintApiUrl(): string | null {
   const server = process.env.WAITMINT_API_URL?.replace(/\/$/, "");
   const pub = process.env.NEXT_PUBLIC_WAITMINT_API_URL?.replace(/\/$/, "");
   return server || pub || null;
+}
+
+export function isLoopbackUrl(value: string | null | undefined): boolean {
+  if (!value) return false;
+  try {
+    const url = new URL(value);
+    return url.hostname === "localhost" || url.hostname === "127.0.0.1" || url.hostname === "::1";
+  } catch {
+    return /localhost|127\.0\.0\.1|::1/.test(value);
+  }
+}
+
+/** Production builds must not silently talk to a developer laptop. */
+export function assertProductionUrls(): void {
+  if (process.env.NODE_ENV !== "production") return;
+  const api = waitmintApiUrl();
+  if (api && isLoopbackUrl(api)) {
+    throw new Error(
+      "WAITMINT_API_URL must not point at localhost in production. Set it to the hosted WaitMint Exchange.",
+    );
+  }
+  const site = process.env.NEXT_PUBLIC_SITE_URL;
+  if (site && isLoopbackUrl(site)) {
+    console.warn(
+      "[WaitMint] NEXT_PUBLIC_SITE_URL is a loopback address in production. Canonical URLs should be https://waitmint.ai",
+    );
+  }
 }
 
 export function supabaseConfigured(): boolean {
