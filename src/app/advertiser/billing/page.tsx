@@ -1,4 +1,4 @@
-import { DataGate } from "@/components/app/data-gate";
+import { ConsoleGate } from "@/components/app/console-gate";
 import { FundingForm } from "@/components/advertiser/funding-form";
 import { StatCard } from "@/components/ui/card";
 import { requireUser } from "@/lib/auth/guards";
@@ -15,9 +15,26 @@ type Billing = {
 export default async function BillingPage() {
   const { session } = await requireUser();
   const token = session?.access_token;
-  if (!token) return <DataGate kind="unconfigured" />;
+  if (!token) {
+    return (
+      <ConsoleGate
+        title="Billing"
+        body="Private Pilot Funding is manual admin credit on the Exchange. There is no live payment gateway on this website."
+        kind="unconfigured"
+      />
+    );
+  }
   const result = await callWaitmint<Billing>("/api/ads/billing", { accessToken: token });
-  if (!result.ok) return <DataGate kind={result.kind === "error" ? "offline" : result.kind} message={result.message} />;
+  if (!result.ok) {
+    return (
+      <ConsoleGate
+        title="Billing"
+        body="Private Pilot Funding is manual admin credit on the Exchange. There is no live payment gateway on this website."
+        kind={result.kind === "error" ? "offline" : result.kind}
+        message={result.message}
+      />
+    );
+  }
   const data = result.data;
 
   return (
