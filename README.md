@@ -99,7 +99,58 @@ Admin: `/admin` `/admin/users` `/admin/advertisers` `/admin/campaigns` `/admin/f
 
 ## Deployment
 
-Portable to any Node host that can run Next.js. Set environment-based API URLs. Do not ship localhost endpoints to production.
+GitHub: [portfoliobuilders/Waitmint-Website-AI](https://github.com/portfoliobuilders/Waitmint-Website-AI)
+
+Hosting: Vercel project **waitmint.ai** (team `portfolios-projects`)
+
+Production (current free URL): **https://waitmintai.vercel.app**
+
+`https://waitmint.vercel.app` is already used by a different Vite app. Do not try to take that alias from another Vercel project. Do not use `waitmint.ai.vercel.app`.
+
+Future custom domain: **https://waitmint.ai** (DNS not configured yet)
+
+Git integration is connected to this repository. The intended flow is:
+
+```text
+Cursor edits
+  → commit
+  → push to GitHub
+  → Vercel preview for branches / PRs
+  → merge to main deploys production
+```
+
+You should not need to upload build files by hand.
+
+### Local Vercel linking
+
+From this repository (do not commit the result):
+
+```bash
+npx vercel login
+npx vercel link
+npx vercel env pull .env.local
+```
+
+When linking, choose the existing project **waitmint.ai**. `.vercel/` is gitignored.
+
+### Production environment
+
+Configure these in the Vercel dashboard. Never put real secrets in git or in `NEXT_PUBLIC_*` except the public anon key.
+
+| Variable | Production |
+|---|---|
+| `NEXT_PUBLIC_SITE_URL` | `https://waitmintai.vercel.app` until `waitmint.ai` is attached |
+| `NEXT_PUBLIC_SUPABASE_URL` | WaitMint Supabase URL, when ready |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | WaitMint anon key, when ready |
+| `WAITMINT_API_URL` | Hosted Exchange origin only — never localhost |
+| `NEXT_PUBLIC_WAITMINT_API_URL` | Same hosted origin, or leave unset |
+| `NEXT_PUBLIC_CHROME_EXTENSION_URL` | Chrome Web Store listing, when ready |
+
+Leave `WAITMINT_API_URL` unset until a hosted Exchange exists. Do not put `SUPABASE_SERVICE_ROLE_KEY` or database passwords in this app.
+
+The marketing site can deploy without Auth or the Exchange. Login, wallet, extension linking, and advertiser management are **not** production-ready until those hosted values exist.
+
+See `docs/PRODUCTION.md` and `docs/AUTH_SETUP.md`.
 
 ## License
 

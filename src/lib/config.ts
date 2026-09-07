@@ -11,17 +11,48 @@ export const siteConfig = {
     "WaitMint turns real AI wait time into verified advertising attention. Use supported AI tools normally. When a qualifying sponsored wait settles, you receive 60% of the advertiser-funded revenue.",
 } as const;
 
-export function publicSiteUrl(): string {
-  const raw = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-  if (raw) return raw;
-  if (process.env.NODE_ENV === "production") return "https://waitmint.ai";
+function withHttps(host: string): string {
+  if (host.startsWith("http://") || host.startsWith("https://")) return host;
+  return `https://${host}`;
+}
+
+/** Resolves the public origin. Prefer an explicit SITE_URL, then Vercel aliases, then waitmint.ai. */
+export function resolvePublicSiteUrl(env: NodeJS.Dict<string> = process.env): string {
+  const raw = env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  if (raw && !(env.NODE_ENV === "production" && isLoopbackUrl(raw))) {
+    return raw;
+  }
+
+  const productionHost = env.VERCEL_PROJECT_PRODUCTION_URL?.replace(/\/$/, "");
+  if (env.VERCEL_ENV === "production" && productionHost) {
+    return withHttps(productionHost);
+  }
+
+  const deploymentHost = env.VERCEL_URL?.replace(/\/$/, "");
+  if (deploymentHost) {
+    return withHttps(deploymentHost);
+  }
+
+  if (productionHost) {
+    return withHttps(productionHost);
+  }
+
+  if (env.NODE_ENV === "production") return "https://waitmint.ai";
   return "http://localhost:3000";
+}
+
+export function publicSiteUrl(): string {
+  return resolvePublicSiteUrl();
 }
 
 export function waitmintApiUrl(): string | null {
   const server = process.env.WAITMINT_API_URL?.replace(/\/$/, "");
   const pub = process.env.NEXT_PUBLIC_WAITMINT_API_URL?.replace(/\/$/, "");
-  return server || pub || null;
+  const api = server || pub || null;
+  if (api && process.env.NODE_ENV === "production" && isLoopbackUrl(api)) {
+    return null;
+  }
+  return api;
 }
 
 export function isLoopbackUrl(value: string | null | undefined): boolean {
@@ -37,16 +68,16 @@ export function isLoopbackUrl(value: string | null | undefined): boolean {
 /** Production builds must not silently talk to a developer laptop. */
 export function assertProductionUrls(): void {
   if (process.env.NODE_ENV !== "production") return;
-  const api = waitmintApiUrl();
-  if (api && isLoopbackUrl(api)) {
+  const rawApi = process.env.WAITMINT_API_URL || process.env.NEXT_PUBLIC_WAITMINT_API_URL;
+  if (rawApi && isLoopbackUrl(rawApi)) {
     throw new Error(
-      "WAITMINT_API_URL must not point at localhost in production. Set it to the hosted WaitMint Exchange.",
+      "WAITMINT_API_URL must not point at localhost in production. Leave it unset until the hosted WaitMint Exchange exists, or set it to that hosted origin.",
     );
   }
   const site = process.env.NEXT_PUBLIC_SITE_URL;
   if (site && isLoopbackUrl(site)) {
     console.warn(
-      "[WaitMint] NEXT_PUBLIC_SITE_URL is a loopback address in production. Canonical URLs should be https://waitmint.ai",
+      "[WaitMint] NEXT_PUBLIC_SITE_URL is a loopback address in production. Set it to the live Vercel alias (https://waitmintai.vercel.app) or https://waitmint.ai.",
     );
   }
 }
