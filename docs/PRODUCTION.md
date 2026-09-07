@@ -21,22 +21,40 @@ Set these in the Vercel project **waitmint.ai** (Production / Preview / Developm
 - Current free alias to use: `https://waitmintai.vercel.app`
 - Preferred alias `https://waitmint.vercel.app` is already serving a different Vite app. Do not try to take it from another project.
 - Future custom domain: `https://waitmint.ai` (not configured in this task)
+- Framework Preset **must stay Next.js**. `vercel.json` pins `"framework": "nextjs"`. Do not set it to Other.
 
-### Why `waitmintai.vercel.app` can 404 while Production is Ready
+Public marketing pages on `https://waitmintai.vercel.app` are live. Login, wallet, extension linking, advertiser, and admin Exchange data stay blocked until WaitMint Supabase Auth and a hosted Exchange exist. Do not set `WAITMINT_API_URL` to localhost. Do not use the `portfolixslipgen` Supabase project.
 
-The WaitMint app is already built. Hashed Production URLs exist. `Settings → Domains` can show `waitmintai.vercel.app` as Valid Configuration and still return Vercel platform `404 NOT_FOUND`. That means the hostname is registered but the **edge has no deployment mapping**.
+### Why production used to 404 while the dashboard said Ready
 
-Fix (existing project only — do not create a second Vercel project):
+Two different failures look the same in a browser (`404 NOT_FOUND`). Do not treat them as one.
+
+**1. Framework Preset was Other (the actual outage)**
+
+Vercel built the repo, marked Production Ready, and uploaded an empty output because the preset was **Other**. That deploys `public/` only (SVGs, no `index.html`). The hashed unique URL hid this behind SSO. The public alias showed a platform 404.
+
+Fix on the existing project only — do not create a second Vercel project:
 
 ```bash
 npx vercel login
-npx vercel link --yes --team portfolios-projects --project waitmint.ai
+npx vercel link --yes --scope portfolios-projects-8cfcc159 --project waitmint.ai
+npx vercel project update --framework nextjs
+npx vercel deploy --prod --yes
+```
+
+Confirm in **Project → Settings → General → Framework Preset** that it is Next.js, build `npm run build`, output Next.js default. `vercel.json` in this repo pins that so a dashboard click cannot silently revert to Other.
+
+**2. Alias registered but not mapped (possible later)**
+
+`Settings → Domains` can show `waitmintai.vercel.app` as Valid Configuration while the edge has no deployment mapping.
+
+```bash
 npx vercel alias set <unique-production-url> waitmintai.vercel.app
 ```
 
-Or add GitHub secret `VERCEL_TOKEN` and run **Actions → Bind production alias** with the unique Production URL.
+Or add GitHub secret `VERCEL_TOKEN` and run **Actions → Bind production alias**.
 
-Hashed `*.vercel.app` URLs stay behind Vercel SSO until Deployment Protection allows public Production domains. The public site is the assigned alias, not the hashed URL.
+Hashed `*.vercel.app` URLs stay behind Vercel SSO (`all_except_custom_domains`). The public site is `https://waitmintai.vercel.app`, not the hashed unique URL.
 
 ## Rules
 
