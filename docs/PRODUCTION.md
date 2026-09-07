@@ -4,8 +4,8 @@ Website (`Waitmint-Website-AI`) uses **only** these names. Do not invent aliases
 
 ```text
 NEXT_PUBLIC_SITE_URL=https://waitmintai.vercel.app
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_SUPABASE_URL=https://vylhcsbbihpbrgpadxio.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=   # publishable key in Vercel only — never git, never service role
 WAITMINT_API_URL=
 NEXT_PUBLIC_WAITMINT_API_URL=
 NEXT_PUBLIC_CHROME_EXTENSION_URL=
@@ -23,7 +23,7 @@ Set these in the Vercel project **waitmint.ai** (Production / Preview / Developm
 - Future custom domain: `https://waitmint.ai` (not configured in this task)
 - Framework Preset **must stay Next.js**. `vercel.json` pins `"framework": "nextjs"`. Do not set it to Other.
 
-Public marketing pages on `https://waitmintai.vercel.app` are live. Login, wallet, extension linking, advertiser, and admin Exchange data stay blocked until WaitMint Supabase Auth and a hosted Exchange exist. Do not set `WAITMINT_API_URL` to localhost. Do not use the `portfolixslipgen` Supabase project.
+Public marketing pages on `https://waitmintai.vercel.app` are live. Auth is the WaitMint project `vylhcsbbihpbrgpadxio`. Wallet, extension linking, advertiser, and admin Exchange data stay blocked until a hosted Exchange exists. Do not set `WAITMINT_API_URL` to localhost. Do not use the `portfolixslipgen` Supabase project.
 
 ### Why production used to 404 while the dashboard said Ready
 
@@ -77,4 +77,4 @@ Sitemap, robots, Open Graph, and JSON-LD use `NEXT_PUBLIC_SITE_URL` when set. On
 
 Hosted Exchange needs `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` on the **API server only**. Optional: `WAITMINT_CORS_ORIGINS` for extra advertiser portal origins. `https://waitmint.ai` is already allowed.
 
-Do not apply database migrations until the WaitMint hosted Supabase project is positively identified. The Supabase project currently connected to this agent (`portfolixslipgen`) is **not** WaitMint.
+Do not apply ledger migrations from this website repository. Schema for wallets and campaigns lives on the Exchange. This repo only uses Auth (publishable key) against `vylhcsbbihpbrgpadxio`.
